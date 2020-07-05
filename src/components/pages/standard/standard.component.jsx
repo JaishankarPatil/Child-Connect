@@ -1,12 +1,16 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
 import Footer from "../../footer/footer.component";
 import SideBar from "../../side-bar/side-bar.component";
-import DatePicker from "react-datepicker";
 import Navigation from "../../navigation/navigation.component";
 import GridView from "../../grid-view/grid-view.component";
 import CustomeAdd from "../../custome-add/custome-add.component";
-import CustomeListView from "../../custome-list-view/custome-list-view.component";
+import { fetchStandardsStart } from "../../../redux/standard/standard.actions";
+import { selectStandardsIsLoading } from "../../../redux/standard/standard.selectors";
+import Spinner from "../../with-spinner/with-spinner.component";
+import StandardListView from "../../standard-list-view/standard-list-view.component";
 
 import STANDARD_DATA from "./standard_data";
 
@@ -18,8 +22,13 @@ class Standard extends Component {
     };
   }
 
+  componentDidMount() {
+    const { fetchStandardsStartDispatch } = this.props;
+    fetchStandardsStartDispatch();
+  }
+
   render() {
-    const { standardList } = this.state;
+    const { isLoading } = this.props;
     const navigationItems = {
       listView: "List View",
       gridView: "Grid View",
@@ -38,7 +47,7 @@ class Standard extends Component {
             <div className="section-body mt-4">
               <div className="container-fluid">
                 <div className="tab-content">
-                  <CustomeListView dataList={standardList} />
+                  {isLoading ? <Spinner /> : <StandardListView />}
                   <GridView />
                   <CustomeAdd headerName={"STANDARD"} fieldName={"Standard"} />
                 </div>
@@ -52,4 +61,12 @@ class Standard extends Component {
   }
 }
 
-export default Standard;
+const mapStateToProps = createStructuredSelector({
+  isLoading: selectStandardsIsLoading,
+});
+
+const mapDispatcToProps = (dispatch) => ({
+  fetchStandardsStartDispatch: () => dispatch(fetchStandardsStart()),
+});
+
+export default connect(mapStateToProps, mapDispatcToProps)(Standard);

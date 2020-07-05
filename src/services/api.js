@@ -26,29 +26,46 @@ const create = (
   });
 
   const getAllStaffs = () => api.get(baseURL + "/staff/v1/queryAllStaffs");
+
   const deleteStaff = (staffId) =>
     api.delete(proxyurl + baseURL + `/staff/v1/deleteStaffById/${staffId}`);
+
   const getStaffById = (staffId) =>
     api.get(proxyurl + baseURL + `/staff/v1/queryStaffByStaffId/${staffId}`);
 
-  console.log("inside api call", getAllStaffs);
-
-  const addStaff = (newStaff) => {
-    console.log("newStaff", newStaff);
+  const addStaff = (newStaff) =>
     api.post(baseURL + "/staff/v1/createStaff", newStaff);
-  };
 
-  const updateStaff = (updatedStaff) => {
-    console.log("updatedStaff", updatedStaff);
-
+  const updateStaff = (updatedStaff) =>
     api.put(baseURL + "/staff/v1/updateStaff", updatedStaff);
-  };
 
   //student
   const getAllStudents = () =>
     api.get(proxyurl + baseURL + "/student/v1/queryAllStudents");
   const createStudent = (newStudent) =>
     api.post(baseURL + "/student/v1/createStudent", newStudent);
+
+  //Group
+
+  const fetchAllGroups = () =>
+    api.get(proxyurl + baseURL + "/group/v1/queryAllGroups");
+
+  //Department
+
+  const fetchAllDepartments = () =>
+    api.get(proxyurl + baseURL + "/department/v1/queryAllDepartments");
+
+  //Designation
+  const fetchAllDesignations = () =>
+    api.get(proxyurl + baseURL + "/designation/v1/queryAllDesignations");
+
+  //Standards
+  const fetchAllStandards = () =>
+    api.get(proxyurl + baseURL + "/standard/v1/queryAllStandards");
+
+  //Subjects
+  const fetchAllSubjects = () =>
+    api.get(proxyurl + baseURL + "/subject/v1/queryAllSubjects");
 
   return {
     // a list of the API functions from step 2
@@ -61,6 +78,21 @@ const create = (
     //students
     getAllStudents,
     createStudent,
+
+    //Group
+    fetchAllGroups,
+
+    //Departments
+    fetchAllDepartments,
+
+    //Designation
+    fetchAllDesignations,
+
+    //Standards
+    fetchAllStandards,
+
+    //Subjects
+    fetchAllSubjects,
   };
 };
 

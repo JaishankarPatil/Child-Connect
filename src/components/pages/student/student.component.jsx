@@ -57,10 +57,7 @@ class Student extends React.Component {
     };
   }
 
-  componentWillMount() {
-    const { fetchStudentsStartsDispatch } = this.props;
-    fetchStudentsStartsDispatch();
-  }
+  componentWillMount() {}
 
   dateOfBirthUpadte = (date) => {
     let item = { ...this.state.studentDetails };
@@ -91,17 +88,8 @@ class Student extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.url);
-    console.log(this.stff);
-    console.log(this.config);
-    axios
-      .post(this.url, this.stff, this.config)
-      .then((response) => {
-        console.log("response test", response.data);
-      })
-      .catch((error) => {
-        console.log("QWERTY", error.message);
-      });
+    const { fetchStudentsStartsDispatch } = this.props;
+    fetchStudentsStartsDispatch();
   }
 
   render() {

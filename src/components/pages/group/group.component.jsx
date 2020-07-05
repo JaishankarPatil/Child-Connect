@@ -1,12 +1,17 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Footer from "../../footer/footer.component";
 import SideBar from "../../side-bar/side-bar.component";
 import DatePicker from "react-datepicker";
 import { Link } from "react-router-dom";
 import Navigation from "../../navigation/navigation.component";
-import CustomeListView from "../../custome-list-view/custome-list-view.component";
 import GridView from "../../grid-view/grid-view.component";
 import CustomeAdd from "../../custome-add/custome-add.component";
+import { fetchGroupsStart } from "../../../redux/group/group.actions";
+import GroupListView from "../../group-list-view/group-list-view.component";
+import Spinner from "../../with-spinner/with-spinner.component";
+import { createStructuredSelector } from "reselect";
+import { selectGroupsIsLoading } from "../../../redux/group/group.selectors";
 
 import "./group.styles.scss";
 
@@ -34,38 +39,25 @@ class Group extends Component {
     this.setState({ groupDetails: item });
   };
 
-  handelSubmit = (event) => {
-    const { groupDetails } = this.state;
-    console.log("dataVal", groupDetails);
-    console.log("dataVal", groupDetails.name);
-    console.log("dataVal", groupDetails.createdBy);
-    console.log("dataVal", groupDetails.createdOn);
-    console.log("dataVal", groupDetails.description);
-  };
-
   changeHandler = (event) => {
     const { value, name } = event.target;
-
-    console.log("name", name);
-    console.log("value", value);
-
     let item = { ...this.state.groupDetails };
     item[name] = value;
-
-    console.log("item", item);
-
     this.setState({ groupDetails: item });
   };
 
+  componentDidMount() {
+    const { fetchGroupStartsDispatch } = this.props;
+    fetchGroupStartsDispatch();
+  }
+
   render() {
-    const { groupList } = this.state;
-    const { groupDetails } = this.state;
-    const { history } = this.props;
     const navigationItems = {
       listView: "List View",
       gridView: "Grid View",
       add: "Add",
     };
+    const { isLoading } = this.props;
 
     return (
       <div className="font-muli theme-cyan gradient">
@@ -76,7 +68,7 @@ class Group extends Component {
             <div className="section-body mt-4">
               <div className="container-fluid">
                 <div className="tab-content">
-                  <CustomeListView dataList={groupList} group />
+                  {isLoading ? <Spinner /> : <GroupListView />}
                   <GridView />
                   <CustomeAdd headerName={"GROUP"} fieldName={"Group"} group />
                 </div>
@@ -90,4 +82,12 @@ class Group extends Component {
   }
 }
 
-export default Group;
+const mapDispatchToProps = (dispatch) => ({
+  fetchGroupStartsDispatch: () => dispatch(fetchGroupsStart()),
+});
+
+const mapStateToProps = createStructuredSelector({
+  isLoading: selectGroupsIsLoading,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Group);

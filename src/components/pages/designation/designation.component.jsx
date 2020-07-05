@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
 import Footer from "../../footer/footer.component";
 import SideBar from "../../side-bar/side-bar.component";
@@ -6,9 +8,12 @@ import DatePicker from "react-datepicker";
 import Navigation from "../../navigation/navigation.component";
 import GridView from "../../grid-view/grid-view.component";
 import CustomeAdd from "../../custome-add/custome-add.component";
-import CustomeListView from "../../custome-list-view/custome-list-view.component";
+import DesignationListView from "../../designation-list-view/designation-list-view.component";
+import { selectDesignationsIsLoading } from "../../../redux/designation/designation.selectors";
+import Spinner from "../../with-spinner/with-spinner.component";
 
 import DESIGNATION_DATA from "./designation_data";
+import { fetchDesignationsStart } from "../../../redux/designation/designation.actions";
 
 class Designation extends Component {
   constructor(props) {
@@ -18,8 +23,13 @@ class Designation extends Component {
     };
   }
 
+  componentDidMount() {
+    const { fetchDesignationsStartDispatch } = this.props;
+    fetchDesignationsStartDispatch();
+  }
+
   render() {
-    const { designationList } = this.state;
+    const { isLoading } = this.props;
     const navigationItems = {
       listView: "List View",
       gridView: "Grid View",
@@ -37,7 +47,8 @@ class Designation extends Component {
             <div className="section-body mt-4">
               <div className="container-fluid">
                 <div className="tab-content">
-                  <CustomeListView dataList={designationList} />
+                  {isLoading ? <Spinner /> : <DesignationListView />}
+
                   <GridView />
                   <CustomeAdd
                     headerName={"DESIGNATIO"}
@@ -55,4 +66,12 @@ class Designation extends Component {
   }
 }
 
-export default Designation;
+const mapStateToProps = createStructuredSelector({
+  isLoading: selectDesignationsIsLoading,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchDesignationsStartDispatch: () => dispatch(fetchDesignationsStart()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Designation);
