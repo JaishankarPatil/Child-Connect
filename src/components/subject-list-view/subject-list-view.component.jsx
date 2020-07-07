@@ -1,9 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import { selectSubjects } from "../../redux/subject/subject.selectors";
 import { createStructuredSelector } from "reselect";
+import { selectSubjects } from "../../redux/subject/subject.selectors";
 
-const SubjectListView = ({ subjectList }) => {
+import { fetchSubjectBySubjectIdStart } from "../../redux/subject/subject.actions";
+
+const SubjectListView = ({ subjectList, fetchSubjectByIdDispatch }) => {
+  function handelUpdate(subjectId) {
+    fetchSubjectByIdDispatch(subjectId);
+  }
+
   return (
     <div className="tab-pane active" id="Staff-all">
       <div className="card">
@@ -38,13 +44,13 @@ const SubjectListView = ({ subjectList }) => {
                         <span>{subject.subjectName}</span>
                       </td>
                       <td>
-                        <span>{subject.subjectName}</span>
+                        <span>{subject.discription}</span>
                       </td>
                       <td>
-                        <span>{subject.subjectName}</span>
+                        <span>{subject.discription}</span>
                       </td>
                       <td>
-                        <span>{subject.subjectName}</span>
+                        <span>{subject.discription}</span>
                       </td>
 
                       <td>
@@ -59,6 +65,9 @@ const SubjectListView = ({ subjectList }) => {
                           type="button"
                           className="btn btn-icon btn-sm"
                           title="Edit"
+                          onClick={() =>
+                            fetchSubjectByIdDispatch(subject.subjectId)
+                          }
                         >
                           <i className="fa fa-edit"></i>
                         </button>
@@ -86,4 +95,9 @@ const mapStateToProps = createStructuredSelector({
   subjectList: selectSubjects,
 });
 
-export default connect(mapStateToProps)(SubjectListView);
+const mapDispatchToProps = (dispatch) => ({
+  fetchSubjectByIdDispatch: (subjectId) =>
+    dispatch(fetchSubjectBySubjectIdStart(subjectId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubjectListView);

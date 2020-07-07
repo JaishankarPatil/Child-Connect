@@ -76,19 +76,7 @@ class Staff extends React.Component {
           <SideBar />
           <div className="page">
             <Navigation pageTitle={"STAFF"} navigationItems={navigationItems} />
-            <div
-              class="alert alert-warning alert-dismissible fade show"
-              role="alert"
-            >
-              <strong>Holy guacamole!</strong> You should check in on some of
-              those fields below.
-              <button
-                type="button"
-                class="close"
-                data-dismiss="alert"
-                aria-label="Close"
-              ></button>
-            </div>
+
             <div className="section-body mt-4">
               <div className="container-fluid">
                 <div className="tab-content">

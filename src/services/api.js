@@ -65,7 +65,12 @@ const create = (
 
   //Subjects
   const fetchAllSubjects = () =>
-    api.get(proxyurl + baseURL + "/subject/v1/queryAllSubjects");
+    api.get(baseURL + "/subject/v1/queryAllSubjects");
+  const createSubject = (newSubject) =>
+    api.post(baseURL + "/subject/v1/createSubject", newSubject);
+
+  const fetchSubjectBySubjectId = (subjectId) =>
+    api.get(baseURL + `/subject/v1/querySubjectBySubjectId/${subjectId}`);
 
   return {
     // a list of the API functions from step 2
@@ -93,6 +98,8 @@ const create = (
 
     //Subjects
     fetchAllSubjects,
+    createSubject,
+    fetchSubjectBySubjectId,
   };
 };
 

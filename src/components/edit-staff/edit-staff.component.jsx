@@ -77,7 +77,6 @@ class EditStaff extends Component {
   };
 
   handelSubmit = (event) => {
-    const api = API.create();
     const { staffDetails } = this.state;
     const { updateStaffDispatch } = this.props;
 

@@ -13,3 +13,9 @@ export const selectSubjectsIsLoading = createSelector(
 
   (subject) => subject.isLoading
 );
+
+export const selectSubjectCreateSuccess = createSelector(
+  [selectSubject],
+
+  (subject) => subject.createSubjectSuccessMessage
+);
