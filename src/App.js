@@ -9,6 +9,7 @@ import BDemo from "./components/bootstrap-demo/bootstrap-demo.component";
 import Staff from "./components/pages/staff/staff.component";
 import Student from "./components/pages/student/student.component";
 import Department from "./components/pages/department/department.component";
+
 import Designation from "./components/pages/designation/designation.component";
 import Group from "./components/pages/group/group.component";
 import AddGroupMember from "./components/add-group-member/add-group-member.component";
@@ -16,6 +17,7 @@ import GroupMember from "./components/group-member/group-member.component";
 import Standard from "./components/pages/standard/standard.component";
 import EditStaff from "./components/edit-staff/edit-staff.component";
 import SubjectUpdate from "./components/subject-update/subject-update.component";
+import DepartmentUpdate from "./components/department/department-update.component";
 
 import CreateHomeWork from "./components/pages/home-work/create-home-work/create-home-work.component";
 
@@ -34,6 +36,11 @@ class App extends Component {
           <Route path="/staff/:id" component={EditStaff} />
           <Route exact path="/student" component={Student} />
           <Route exact path="/department" component={Department} />
+          <Route
+            exact
+            path="/department/:departmentId"
+            component={DepartmentUpdate}
+          />
           <Route exact path="/designation" component={Designation} />
           <Route exact path="/subject" component={Subject} />
           <Route exact path="/subject/:subjectId" component={SubjectUpdate} />

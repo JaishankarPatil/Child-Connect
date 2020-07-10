@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SubmitButton from "../submit-button/submit-button.component";
 import { createSubject } from "../../redux/subject/subject.actions";
-import { fetchSubjectsStart } from "../../redux/subject/subject.actions";
 
 class SubjectCreate extends Component {
   constructor(props) {
@@ -108,7 +107,6 @@ class SubjectCreate extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   createSubjectDispatch: (newSubject) => dispatch(createSubject(newSubject)),
-  fetchStudentsStartDispatch: () => dispatch(fetchSubjectsStart()),
 });
 
 export default connect(null, mapDispatchToProps)(SubjectCreate);

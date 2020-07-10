@@ -41,7 +41,8 @@ function* fetchDepartmentByDepartmentIdStartAsync(api, action) {
     console.log("response", response);
     console.log("response", response.data);
     console.log("response", response.status);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
+      alert("i am ok");
       yield put(fetchDepartmentByDepartmentIdUpdateSuccess(response.data));
     }
   } catch (error) {

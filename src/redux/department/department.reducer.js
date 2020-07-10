@@ -4,6 +4,15 @@ const INITIAL_STATE = {
   departments: [],
   errorMessage: "",
   isLoading: false,
+  createDepartmentSuccessMessage: "",
+  updateDepartmentSuccessMessage: "",
+  deleteDepartmentSuccessMessage: "",
+  fetchAllDepartmentsErrorMessage: "",
+  fetchDepartmentByIdErrorMessage: "",
+  createDepartmentErrorMessage: "",
+  updateDepartmentErrorMessage: "",
+  deleteDepartmentErrorMessage: "",
+  departmentToUpdate: "",
 };
 
 const departmentReducer = (state = INITIAL_STATE, action) => {
@@ -18,6 +27,11 @@ const departmentReducer = (state = INITIAL_STATE, action) => {
         departments: action.payload,
         isLoading: false,
       };
+    case DepartmentActionTypes.FETCH_DEPARTMENT_FAILURE:
+      return {
+        fetchAllDepartmentsErrorMessage: action.payload,
+        isLoading: false,
+      };
     case DepartmentActionTypes.CREATE_DEPARTMENT:
       return {
         ...state,
@@ -30,7 +44,7 @@ const departmentReducer = (state = INITIAL_STATE, action) => {
       };
     case DepartmentActionTypes.CREATE_DEPARTMENT_FAILURE:
       return {
-        errorMessage: action.payload,
+        createDepartmentErrorMessage: action.payload,
         isLoading: false,
       };
     case DepartmentActionTypes.FETCH_DEPARTMENT_BYDEPARTMENTID_START:
@@ -40,12 +54,12 @@ const departmentReducer = (state = INITIAL_STATE, action) => {
       };
     case DepartmentActionTypes.FETCH_DEPARTMENT_BYDEPARTMENTID_SUCCESS:
       return {
-        subjectToUpdate: action.payload,
+        departmentToUpdate: action.payload,
         isLoading: false,
       };
     case DepartmentActionTypes.FETCH_DEPARTMENT_BYDEPARTMENTID_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchDepartmentByIdErrorMessage: action.payload,
         isLoading: false,
       };
     case DepartmentActionTypes.UPDATE_DEPARTMENT:
@@ -60,7 +74,7 @@ const departmentReducer = (state = INITIAL_STATE, action) => {
       };
     case DepartmentActionTypes.UPDATE_DEPARTMENT_FAILURE:
       return {
-        errorMessage: action.payload,
+        updateDepartmentErrorMessage: action.payload,
         isLoading: false,
       };
     case DepartmentActionTypes.DELETE_DEPARTMENT:
@@ -75,7 +89,7 @@ const departmentReducer = (state = INITIAL_STATE, action) => {
       };
     case DepartmentActionTypes.DELETE_DEPARTMENT_FAILURE:
       return {
-        errorMessage: action.payload,
+        deleteDepartmentErrorMessage: action.payload,
         isLoading: false,
       };
     default:

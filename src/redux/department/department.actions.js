@@ -49,9 +49,11 @@ export const fetchDepartmentByDepartmentIdUpdateStart = (departmentId) => ({
   payload: departmentId,
 });
 
-export const fetchDepartmentByDepartmentIdUpdateSuccess = (department) => ({
+export const fetchDepartmentByDepartmentIdUpdateSuccess = (
+  departmentToUpdate
+) => ({
   type: DepartmentActionTypes.FETCH_DEPARTMENT_BYDEPARTMENTID_SUCCESS,
-  payload: department,
+  payload: departmentToUpdate,
 });
 
 export const fetchDepartmentByDepartmentIdUpdateFailure = (errorMessage) => ({

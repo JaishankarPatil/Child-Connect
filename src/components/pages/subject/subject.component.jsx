@@ -20,7 +20,7 @@ import Footer from "../../footer/footer.component";
 import SideBar from "../../side-bar/side-bar.component";
 import Navigation from "../../navigation/navigation.component";
 import GridView from "../../grid-view/grid-view.component";
-import SubjectCreate from "../../subject-add/subject-create.component";
+import SubjectCreate from "../../subject-create/subject-create.component";
 import SubjectListView from "../../subject-list-view/subject-list-view.component";
 import Spinner from "../../with-spinner/with-spinner.component";
 

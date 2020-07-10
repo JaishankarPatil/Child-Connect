@@ -3,8 +3,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { createStructuredSelector } from "reselect";
 import { selectDepartments } from "../../redux/department/department.selectors";
+import { deleteDepartmentByDepartmentId } from "../../redux/department/department.actions";
 
-const DepartmentListView = ({ departmentList }) => {
+const DepartmentListView = ({
+  departmentList,
+  deleteDepartmentByDepartmentIdDispatch,
+}) => {
   return (
     <div className="tab-pane active" id="Staff-all">
       <div className="card">
@@ -58,18 +62,25 @@ const DepartmentListView = ({ departmentList }) => {
                         >
                           <i className="fa fa-eye"></i>
                         </button>
-                        <button
-                          type="button"
-                          className="btn btn-icon btn-sm"
-                          title="Edit"
-                        >
-                          <i className="fa fa-edit"></i>
-                        </button>
+                        <Link to={`/department/${department.departmentId}`}>
+                          <button
+                            type="button"
+                            className="btn btn-icon btn-sm"
+                            title="Edit"
+                          >
+                            <i className="fa fa-edit"></i>
+                          </button>
+                        </Link>
                         <button
                           type="button"
                           className="btn btn-icon btn-sm js-sweetalert"
                           title="Delete"
                           data-type="confirm"
+                          onClick={() =>
+                            deleteDepartmentByDepartmentIdDispatch(
+                              department.departmentId
+                            )
+                          }
                         >
                           <i className="fa fa-trash-o text-danger"></i>
                         </button>
@@ -89,4 +100,9 @@ const mapStateToProps = createStructuredSelector({
   departmentList: selectDepartments,
 });
 
-export default connect(mapStateToProps)(DepartmentListView);
+const mapDispatchToProps = (dispatch) => ({
+  deleteDepartmentByDepartmentIdDispatch: (subjectId) =>
+    dispatch(deleteDepartmentByDepartmentId(subjectId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DepartmentListView);
