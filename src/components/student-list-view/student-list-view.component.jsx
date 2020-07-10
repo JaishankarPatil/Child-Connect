@@ -6,8 +6,6 @@ import {
   selectStudents,
   selectStudentsIsLoading,
 } from "../../redux/student/student.selectors";
-import { deleteStaff, updateStaff } from "../../redux/student/student.actions";
-import STAFF_DATA from "../pages/staff/staff_data";
 import Spinner from "../with-spinner/with-spinner.component";
 
 const StudentListView = ({

@@ -6,8 +6,6 @@ import {
   selectStaffs,
   selectStaffsIsLoading,
 } from "../../redux/staff/staff.selectors";
-import { deleteStaff, updateStaff } from "../../redux/staff/staff.actions";
-import STAFF_DATA from "../pages/staff/staff_data";
 
 const ListView = ({
   staffsList,
@@ -225,8 +223,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteStaffDispatch: (staff) => dispatch(deleteStaff(staff)),
-  updateStaffDispatch: (staff) => dispatch(updateStaff(staff)),
+  //deleteStaffDispatch: (staff) => dispatch(deleteStaff(staff)),
+  //updateStaffDispatch: (staff) => dispatch(updateStaff(staff)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListView);

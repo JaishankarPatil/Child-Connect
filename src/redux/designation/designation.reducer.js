@@ -1,4 +1,4 @@
-import DesignationtActionTypes from "./designation.types";
+import DesignationActionTypes from "./designation.types";
 
 const INITIAL_STATE = {
   designations: [],
@@ -8,17 +8,72 @@ const INITIAL_STATE = {
 
 const designationReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case DesignationtActionTypes.FETCH_DESIGNATIONT_START:
+    case DesignationActionTypes.FETCH_DESIGNATION_START:
       return {
         ...state,
         isLoading: true,
       };
-    case DesignationtActionTypes.FETCH_DESIGNATIONT_SUCCESS:
+    case DesignationActionTypes.FETCH_DESIGNATION_SUCCESS:
       return {
         designations: action.payload,
         isLoading: false,
       };
-    case DesignationtActionTypes.UPDATE_DESIGNATIONT_FAILURE:
+    case DesignationActionTypes.CREATE_DESIGNATION:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case DesignationActionTypes.CREATE_DESIGNATION_SUCCESS:
+      return {
+        createDesignationSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case DesignationActionTypes.CREATE_DESIGNATION_FAILURE:
+      return {
+        errorMessage: action.payload,
+        isLoading: false,
+      };
+    case DesignationActionTypes.FETCH_DESIGNATION_BYDESIGNATIONID_START:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case DesignationActionTypes.FETCH_DESIGNATION_BYDESIGNATIONID_SUCCESS:
+      return {
+        subjectToUpdate: action.payload,
+        isLoading: false,
+      };
+    case DesignationActionTypes.FETCH_DESIGNATION_BYDESIGNATIONID_FAILURE:
+      return {
+        errorMessage: action.payload,
+        isLoading: false,
+      };
+    case DesignationActionTypes.UPDATE_DESIGNATION:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case DesignationActionTypes.UPDATE_DESIGNATION_SUCCESS:
+      return {
+        updateDesignationSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case DesignationActionTypes.UPDATE_DESIGNATION_FAILURE:
+      return {
+        errorMessage: action.payload,
+        isLoading: false,
+      };
+    case DesignationActionTypes.DELETE_DESIGNATION:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case DesignationActionTypes.DELETE_DESIGNATION_SUCCESS:
+      return {
+        deleteDesignationSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case DesignationActionTypes.DELETE_DESIGNATION_FAILURE:
       return {
         errorMessage: action.payload,
         isLoading: false,

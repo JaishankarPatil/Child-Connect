@@ -11,7 +11,7 @@ class SubjectCreate extends Component {
     this.state = {
       subjectDetails: {
         subjectName: "",
-        description: "",
+        discription: "",
       },
     };
   }
@@ -85,7 +85,7 @@ class SubjectCreate extends Component {
                     <div className="form-group mt-3">
                       <label>Description</label>
                       <textarea
-                        name="description"
+                        name="discription"
                         onChange={this.changeHandler}
                         value={subjectDetails.discription}
                         rows="4"

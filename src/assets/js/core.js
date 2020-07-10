@@ -1,9 +1,12 @@
 import * as $ from "jquery";
+import jQuery from "jquery";
+
 import hexToRgba from "jquery";
 import List from "jquery";
 import metisMenu from "metismenu";
 import sparkline from "sparkline";
 
+window.jQuery = jQuery;
 $(function () {
   "use strict";
 

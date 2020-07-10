@@ -1,14 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectSubjects } from "../../redux/subject/subject.selectors";
 
-import { fetchSubjectBySubjectIdStart } from "../../redux/subject/subject.actions";
+import {
+  fetchSubjectBySubjectIdUpdateStart,
+  deleteSubjectBySubjectId,
+} from "../../redux/subject/subject.actions";
 
-const SubjectListView = ({ subjectList, fetchSubjectByIdDispatch }) => {
-  function handelUpdate(subjectId) {
-    fetchSubjectByIdDispatch(subjectId);
-  }
+const SubjectListView = ({ subjectList, deleteSubjectBySubjectIdDispatch }) => {
+  function handelUpdate(subjectId) {}
 
   return (
     <div className="tab-pane active" id="Staff-all">
@@ -61,21 +63,23 @@ const SubjectListView = ({ subjectList, fetchSubjectByIdDispatch }) => {
                         >
                           <i className="fa fa-eye"></i>
                         </button>
-                        <button
-                          type="button"
-                          className="btn btn-icon btn-sm"
-                          title="Edit"
-                          onClick={() =>
-                            fetchSubjectByIdDispatch(subject.subjectId)
-                          }
-                        >
-                          <i className="fa fa-edit"></i>
-                        </button>
+                        <Link to={`/subject/${subject.subjectId}`}>
+                          <button
+                            type="button"
+                            className="btn btn-icon btn-sm"
+                            title="Edit"
+                          >
+                            <i className="fa fa-edit"></i>
+                          </button>
+                        </Link>
                         <button
                           type="button"
                           className="btn btn-icon btn-sm js-sweetalert"
                           title="Delete"
                           data-type="confirm"
+                          onClick={() =>
+                            deleteSubjectBySubjectIdDispatch(subject.subjectId)
+                          }
                         >
                           <i className="fa fa-trash-o text-danger"></i>
                         </button>
@@ -96,8 +100,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchSubjectByIdDispatch: (subjectId) =>
-    dispatch(fetchSubjectBySubjectIdStart(subjectId)),
+  deleteSubjectBySubjectIdDispatch: (subjectId) =>
+    dispatch(deleteSubjectBySubjectId(subjectId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubjectListView);

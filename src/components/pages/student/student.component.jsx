@@ -12,7 +12,7 @@ import Navigation from "../../navigation/navigation.component";
 import GridView from "../../grid-view/grid-view.component";
 import AddStudent from "../../add-student/add-student.component";
 import StudentListView from "../../student-list-view/student-list-view.component";
-import { fetchStudentsStarts } from "../../../redux/student/student.actions";
+import { fetchStudentsStart } from "../../../redux/student/student.actions";
 
 import "./student.styles.scss";
 
@@ -159,7 +159,7 @@ class Student extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchStudentsStartsDispatch: () => dispatch(fetchStudentsStarts()),
+  fetchStudentsStartsDispatch: () => dispatch(fetchStudentsStart()),
 });
 
 export default connect(null, mapDispatchToProps)(Student);

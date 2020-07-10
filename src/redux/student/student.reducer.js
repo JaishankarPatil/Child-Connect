@@ -4,9 +4,13 @@ const INITIAL_STATE = {
   students: [],
   isLoading: false,
   errorMessage: "",
+  createStudentSuccessMessage: "",
+  updateStudentSuccessMessage: "",
+  deleteStudentSuccessMessage: "",
+  studentToUpdate: "",
 };
 
-const StudentReducer = (state = INITIAL_STATE, action) => {
+const studentReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case StudentActionTypes.FETCH_STUDENT_START:
       return {
@@ -18,7 +22,6 @@ const StudentReducer = (state = INITIAL_STATE, action) => {
         students: action.payload,
         isLoading: false,
       };
-
     case StudentActionTypes.FETCH_STUDENT_FAILURE:
       return {
         errorMessage: action.payload,
@@ -27,10 +30,66 @@ const StudentReducer = (state = INITIAL_STATE, action) => {
     case StudentActionTypes.CREATE_STUDENT:
       return {
         ...state,
+        isLoading: true,
+      };
+    case StudentActionTypes.CREATE_STUDENT_SUCCESS:
+      return {
+        createStudentSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case StudentActionTypes.CREATE_STUDENT_FAILURE:
+      return {
+        errorMessage: action.payload,
+        isLoading: false,
+      };
+    case StudentActionTypes.FETCH_STUDENT_BYSTUDENTID_START:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case StudentActionTypes.FETCH_STUDENT_BYSTUDENTID_SUCCESS:
+      return {
+        studentToUpdate: action.payload,
+        isLoading: false,
+      };
+    case StudentActionTypes.FETCH_STUDENT_BYSTUDENTID_FAILURE:
+      return {
+        errorMessage: action.payload,
+        isLoading: false,
+      };
+    case StudentActionTypes.UPDATE_STUDENT:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case StudentActionTypes.UPDATE_STUDENT_SUCCESS:
+      return {
+        updateStudentSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case StudentActionTypes.UPDATE_STUDENT_FAILURE:
+      return {
+        errorMessage: action.payload,
+        isLoading: false,
+      };
+    case StudentActionTypes.DELETE_STUDENT:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case StudentActionTypes.DELETE_STUDENT_SUCCESS:
+      return {
+        deleteStudentSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case StudentActionTypes.DELETE_STUDENT_FAILURE:
+      return {
+        errorMessage: action.payload,
+        isLoading: false,
       };
     default:
       return state;
   }
 };
 
-export default StudentReducer;
+export default studentReducer;

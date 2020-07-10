@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import { withRouter } from "react-router-dom";
+
 import {
-  selectSubjects,
   selectSubjectsIsLoading,
-  selectSubjectCreateSuccess,
+  selectdeleteSubjectSuccessMessage,
+  selectSubjectCreateSuccessMessage,
+  selectSubjectsErrorMessage,
+  selectSubjectCreateErrorMessage,
+  selectdeleteSubjectErrorMessage,
+  selectSubjectUpdateErrorMessage,
 } from "../../../redux/subject/subject.selectors";
 import {
   fetchSubjectsStart,
@@ -18,14 +24,9 @@ import SubjectCreate from "../../subject-add/subject-create.component";
 import SubjectListView from "../../subject-list-view/subject-list-view.component";
 import Spinner from "../../with-spinner/with-spinner.component";
 
-import SUBJECT_DATA from "./subject_data";
-
 class Subject extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      subjectList: SUBJECT_DATA,
-    };
   }
 
   componentDidMount() {
@@ -39,16 +40,57 @@ class Subject extends Component {
 
   render() {
     let successFlash = false;
-    const { isLoading, history, subjectCreateSuccess } = this.props;
+    let failureFlash = false;
+    const {
+      isLoading,
+      history,
+      subjectCreateSuccess,
+      selectSubjectUpdateError,
+      selectdeleteSubjectError,
+    } = this.props;
     const navigationItems = {
       listView: "List View",
       gridView: "Grid View",
       add: "Add",
     };
 
+    console.log("selectSubjectUpdateError", selectSubjectUpdateError);
+
+    const CreateSubjectSuccessFlashMessage = (
+      <div class="alert alert-success" role="alert">
+        New Subject is created SuccessFully!
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          onClick={() => this.reloadThePage(history)}
+        ></button>
+      </div>
+    );
+
+    const DeleteSubjectFailedFlashMessage = (
+      <div class="alert alert-danger" role="alert">
+        Deleting of Subject failed, please contact{" "}
+        <a href="#" class="alert-link">
+          jai.patil69@gmail.com
+        </a>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          onClick={() => this.reloadThePage(history)}
+        ></button>
+      </div>
+    );
+
     console.log("subjectCreateSuccess", subjectCreateSuccess);
     if (subjectCreateSuccess) {
       successFlash = true;
+    }
+    if (selectSubjectUpdateError || selectdeleteSubjectError) {
+      failureFlash = true;
     }
     console.log("isLoading", isLoading);
     console.log("successFlash", successFlash);
@@ -61,17 +103,12 @@ class Subject extends Component {
               pageTitle={"SUBJECT"}
               navigationItems={navigationItems}
             />{" "}
-            {successFlash ? (
-              <div class="alert alert-success" role="alert">
-                New Subject is created SuccessFully!
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="alert"
-                  aria-label="Close"
-                  onClick={() => this.reloadThePage(history)}
-                ></button>
-              </div>
+            {failureFlash || successFlash ? (
+              failureFlash ? (
+                DeleteSubjectFailedFlashMessage
+              ) : null || successFlash ? (
+                CreateSubjectSuccessFlashMessage
+              ) : null
             ) : (
               <div className="section-body mt-4">
                 <div className="container-fluid">
@@ -93,8 +130,12 @@ class Subject extends Component {
 
 const mapStateToProps = createStructuredSelector({
   isLoading: selectSubjectsIsLoading,
-  subjectList: selectSubjects,
-  subjectCreateSuccess: selectSubjectCreateSuccess,
+  subjectCreateSuccess: selectSubjectCreateSuccessMessage,
+  subjectDeleteSuccess: selectdeleteSubjectSuccessMessage,
+  selectSubjectsError: selectSubjectsErrorMessage,
+  selectSubjectCreateError: selectSubjectCreateErrorMessage,
+  selectdeleteSubjectError: selectdeleteSubjectErrorMessage,
+  selectSubjectUpdateError: selectSubjectUpdateErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -15,6 +15,9 @@ import AddGroupMember from "./components/add-group-member/add-group-member.compo
 import GroupMember from "./components/group-member/group-member.component";
 import Standard from "./components/pages/standard/standard.component";
 import EditStaff from "./components/edit-staff/edit-staff.component";
+import SubjectUpdate from "./components/subject-update/subject-update.component";
+
+import CreateHomeWork from "./components/pages/home-work/create-home-work/create-home-work.component";
 
 import Subject from "./components/pages/subject/subject.component";
 import "./assets/js/core.js";
@@ -33,10 +36,12 @@ class App extends Component {
           <Route exact path="/department" component={Department} />
           <Route exact path="/designation" component={Designation} />
           <Route exact path="/subject" component={Subject} />
+          <Route exact path="/subject/:subjectId" component={SubjectUpdate} />
           <Route exact path="/group" component={Group} />
           <Route exact path="/addgroupmember" component={AddGroupMember} />
           <Route exact path="/groupmember" component={GroupMember} />
           <Route exact path="/standard" component={Standard} />
+          <Route exact path="/createhomework" component={CreateHomeWork} />
         </Switch>
       </div>
     );

@@ -5,6 +5,13 @@ const INITIAL_STATE = {
   isLoading: false,
   errorMessage: "",
   createSubjectSuccessMessage: "",
+  updateSubjectSuccessMessage: "",
+  deleteSubjectSuccessMessage: "",
+  fetchAllSubjectsErrorMessage: "",
+  fetchSubjectByIdErrorMessage: "",
+  createSubjectErrorMessage: "",
+  updateSubjectErrorMessage: "",
+  deleteSubjectErrorMessage: "",
   subjectToUpdate: "",
 };
 
@@ -22,7 +29,7 @@ const subjectReducer = (state = INITIAL_STATE, action) => {
       };
     case SubjectActionTypes.FETCH_SUBJECT_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchAllSubjectsErrorMessage: action.payload,
         isLoading: false,
       };
     case SubjectActionTypes.CREATE_SUBJECT:
@@ -37,7 +44,7 @@ const subjectReducer = (state = INITIAL_STATE, action) => {
       };
     case SubjectActionTypes.CREATE_SUBJECT_FAILURE:
       return {
-        errorMessage: action.payload,
+        createSubjectErrorMessage: action.payload,
         isLoading: false,
       };
     case SubjectActionTypes.FETCH_SUBJECT_BYSUBJECTID_START:
@@ -52,7 +59,37 @@ const subjectReducer = (state = INITIAL_STATE, action) => {
       };
     case SubjectActionTypes.FETCH_SUBJECT_BYSUBJECTID_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchSubjectByIdErrorMessage: action.payload,
+        isLoading: false,
+      };
+    case SubjectActionTypes.UPDATE_SUBJECT:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case SubjectActionTypes.UPDATE_SUBJECT_SUCCESS:
+      return {
+        updateSubjectSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case SubjectActionTypes.UPDATE_SUBJECT_FAILURE:
+      return {
+        updateSubjectErrorMessage: action.payload,
+        isLoading: false,
+      };
+    case SubjectActionTypes.DELETE_SUBJECT:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case SubjectActionTypes.DELETE_SUBJECT_SUCCESS:
+      return {
+        deleteSubjectSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case SubjectActionTypes.DELETE_SUBJECT_FAILURE:
+      return {
+        deleteSubjectErrorMessage: action.payload,
         isLoading: false,
       };
     default:

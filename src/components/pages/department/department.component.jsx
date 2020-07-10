@@ -7,7 +7,7 @@ import Navigation from "../../navigation/navigation.component";
 import GridView from "../../grid-view/grid-view.component";
 import CustomeAdd from "../../custome-add/custome-add.component";
 import DepartmentListView from "../../department-list-view/department-list-view.component";
-import { fetchDepartmentStarts } from "../../../redux/department/department.actions";
+import { fetchDepartmentsStart } from "../../../redux/department/department.actions";
 import { selectDepartmentsIsLoading } from "../../../redux/department/department.selectors";
 import Spinner from "../../with-spinner/with-spinner.component";
 
@@ -66,7 +66,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchDepartmentListDispatch: () => dispatch(fetchDepartmentStarts()),
+  fetchDepartmentListDispatch: () => dispatch(fetchDepartmentsStart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Department);

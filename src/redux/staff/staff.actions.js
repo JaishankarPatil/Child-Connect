@@ -1,30 +1,75 @@
-import staffActionTypes from "./staff.types";
+import StaffActionTypes from "./staff.types";
 
 export const fetchStaffsStart = () => ({
-  type: staffActionTypes.FETCH_STAFFS_START,
+  type: StaffActionTypes.FETCH_STAFF_START,
 });
 
-export const fetchStaffsSuccess = (staffs) => ({
-  type: staffActionTypes.FETCH_STAFFS_SUCCESS,
+export const fetchStaffSuccess = (staffs) => ({
+  type: StaffActionTypes.FETCH_STAFF_SUCCESS,
   payload: staffs,
 });
 
-export const fetchStaffsFailure = (errorMessage) => ({
-  type: staffActionTypes.FETCH_STAFFS_FAILURE,
+export const fetchStaffFailure = (errorMessage) => ({
+  type: StaffActionTypes.FETCH_STAFF_FAILURE,
   payload: errorMessage,
 });
 
-export const deleteStaff = (staffToBeDelete) => ({
-  type: staffActionTypes.DELETE_STAFF,
-  payload: staffToBeDelete,
+export const createStaff = (newStaff) => ({
+  type: StaffActionTypes.CREATE_STAFF,
+  payload: newStaff,
 });
 
-export const createStaff = (staffToBeCreated) => ({
-  type: staffActionTypes.CREATE_STAFF,
-  payload: staffToBeCreated,
+export const createStaffSuccess = (successMessage) => ({
+  type: StaffActionTypes.CREATE_STAFF_SUCCESS,
+  payload: successMessage,
 });
 
-export const updateStaff = (staffToBeUpdate) => ({
-  type: staffActionTypes.UPDATE_STAFF,
-  payload: staffToBeUpdate,
+export const createStaffFailure = (errorMessage) => ({
+  type: StaffActionTypes.DELETE_STAFF_FAILURE,
+  payload: errorMessage,
+});
+
+export const updateStaff = (staffToUpdate) => ({
+  type: StaffActionTypes.UPDATE_STAFF,
+  payload: staffToUpdate,
+});
+
+export const updateStaffSuccess = (successMessage) => ({
+  type: StaffActionTypes.UPDATE_STAFF_SUCCESS,
+  payload: successMessage,
+});
+
+export const updateStaffFailure = (errorMessage) => ({
+  type: StaffActionTypes.UPDATE_STAFF_FAILURE,
+  payload: errorMessage,
+});
+
+export const fetchStaffByStaffIdUpdateStart = (staffId) => ({
+  type: StaffActionTypes.FETCH_STAFF_BYSTAFFID_START,
+  payload: staffId,
+});
+
+export const fetchStaffByStaffIdUpdateSuccess = (staff) => ({
+  type: StaffActionTypes.FETCH_STAFF_BYSTAFFID_SUCCESS,
+  payload: staff,
+});
+
+export const fetchStaffByStaffIdUpdateFailure = (errorMessage) => ({
+  type: StaffActionTypes.FETCH_STAFF_BYSTAFFID_SUCCESS,
+  payload: errorMessage,
+});
+
+export const deleteStaffByStaffId = (staffId) => ({
+  type: StaffActionTypes.DELETE_STAFF,
+  payload: staffId,
+});
+
+export const deleteStaffByStaffIdSuccess = (successMessage) => ({
+  type: StaffActionTypes.DELETE_STAFF_SUCCESS,
+  payload: successMessage,
+});
+
+export const deleteStaffByStaffIdFailure = (errorMessage) => ({
+  type: StaffActionTypes.DELETE_STAFF_FAILURE,
+  payload: errorMessage,
 });
