@@ -4,6 +4,15 @@ const INITIAL_STATE = {
   designations: [],
   errorMessage: "",
   isLoading: false,
+  createDesignationSuccessMessage: "",
+  updateDesignationSuccessMessage: "",
+  deleteDesignationSuccessMessage: "",
+  fetchAllDesignationsErrorMessage: "",
+  fetchDesignationByIdErrorMessage: "",
+  createDesignationErrorMessage: "",
+  updateDesignationErrorMessage: "",
+  deleteDesignationErrorMessage: "",
+  designationToUpdate: "",
 };
 
 const designationReducer = (state = INITIAL_STATE, action) => {
@@ -18,6 +27,11 @@ const designationReducer = (state = INITIAL_STATE, action) => {
         designations: action.payload,
         isLoading: false,
       };
+    case DesignationActionTypes.FETCH_DESIGNATION_FAILURE:
+      return {
+        fetchAllDesignationsErrorMessage: action.payload,
+        isLoading: false,
+      };
     case DesignationActionTypes.CREATE_DESIGNATION:
       return {
         ...state,
@@ -30,7 +44,7 @@ const designationReducer = (state = INITIAL_STATE, action) => {
       };
     case DesignationActionTypes.CREATE_DESIGNATION_FAILURE:
       return {
-        errorMessage: action.payload,
+        createDesignationErrorMessage: action.payload,
         isLoading: false,
       };
     case DesignationActionTypes.FETCH_DESIGNATION_BYDESIGNATIONID_START:
@@ -40,12 +54,12 @@ const designationReducer = (state = INITIAL_STATE, action) => {
       };
     case DesignationActionTypes.FETCH_DESIGNATION_BYDESIGNATIONID_SUCCESS:
       return {
-        subjectToUpdate: action.payload,
+        designationToUpdate: action.payload,
         isLoading: false,
       };
     case DesignationActionTypes.FETCH_DESIGNATION_BYDESIGNATIONID_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchDesignationByIdErrorMessage: action.payload,
         isLoading: false,
       };
     case DesignationActionTypes.UPDATE_DESIGNATION:
@@ -60,7 +74,7 @@ const designationReducer = (state = INITIAL_STATE, action) => {
       };
     case DesignationActionTypes.UPDATE_DESIGNATION_FAILURE:
       return {
-        errorMessage: action.payload,
+        updateDesignationErrorMessage: action.payload,
         isLoading: false,
       };
     case DesignationActionTypes.DELETE_DESIGNATION:
@@ -75,7 +89,7 @@ const designationReducer = (state = INITIAL_STATE, action) => {
       };
     case DesignationActionTypes.DELETE_DESIGNATION_FAILURE:
       return {
-        errorMessage: action.payload,
+        deleteDesignationErrorMessage: action.payload,
         isLoading: false,
       };
     default:

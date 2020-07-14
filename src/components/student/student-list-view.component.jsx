@@ -7,15 +7,24 @@ import {
   selectStudentsIsLoading,
 } from "../../redux/student/student.selectors";
 import Spinner from "../with-spinner/with-spinner.component";
+import { deleteStudentByStudentId } from "../../redux/student/student.actions";
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
+
+const reloadThePage = (history) => {
+  history.go(0);
+};
 
 const StudentListView = ({
   studentList,
   isLoading,
   headerName,
-  deleteStudentDispatch,
+  deleteStudentByStudentIdDispatch,
   updateStudentDispatch,
 }) => {
   console.log("isLoading", isLoading);
+
+  console.log("studentList", studentList);
 
   const {
     no,
@@ -47,11 +56,25 @@ const StudentListView = ({
     relievedDate,
   } = headerName;
 
+  const FetchStudentsFailedFlashMessage = (
+    <div class="alert alert-danger" role="alert">
+      No students availebel please contact admin{" "}
+      <a href="#" class="alert-link">
+        SUPPORT@childconnect.com
+      </a>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+        onClick={() => reloadThePage(history)}
+      ></button>
+    </div>
+  );
+
   return (
     <div>
-      {isLoading ? (
-        <Spinner />
-      ) : (
+      {studentList ? (
         <div className="tab-pane active" id="Staff-all">
           <div className="card">
             <div className="table-responsive">
@@ -66,25 +89,15 @@ const StudentListView = ({
                     <th>{gender}</th>
                     <th>{bloodGroup}</th>
                     <th>{adharNumber}</th>
-                    <th>{panNumber}</th>
-                    <th>{qualification}</th>
                     <th>{email}</th>
                     <th>{mobileNumber}</th>
                     <th>{alternativeMobileNumber}</th>
-                    <th>{pfNumber}</th>
                     <th>{address}</th>
                     <th>{area}</th>
                     <th>{city}</th>
                     <th>{state}</th>
                     <th>{pincode}</th>
-                    <th>{dateOfJoining}</th>
-                    <th>{jobType}</th>
-                    <th>{jobHours}</th>
-                    <th>{department}</th>
-                    <th>{jobDesignation}</th>
-                    <th>{employeeNumber}</th>
-                    <th>{description}</th>
-                    <th>{relievedDate}</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -99,7 +112,7 @@ const StudentListView = ({
                               title=""
                               data-original-title="Avatar Name"
                             >
-                              <span>{student.firstName.slice(0, 2)}</span>
+                              <span>{student.studentId}</span>
                             </div>
                           </td>
                           <td>
@@ -124,12 +137,6 @@ const StudentListView = ({
                             <span>{student.adharNumber}</span>
                           </td>
                           <td>
-                            <span>{student.panNumber}</span>
-                          </td>
-                          <td>
-                            <span>{student.qualification}</span>
-                          </td>
-                          <td>
                             <span>{student.email}</span>
                           </td>
                           <td>
@@ -137,9 +144,6 @@ const StudentListView = ({
                           </td>
                           <td>
                             <span>{student.alternativeMobileNumber}</span>
-                          </td>
-                          <td>
-                            <span>{student.pfNumber}</span>
                           </td>
                           <td>
                             <span>{student.address}</span>
@@ -156,32 +160,6 @@ const StudentListView = ({
                           <td>
                             <span>{student.pincode}</span>
                           </td>
-                          <td>
-                            <span>{student.dateOfJoining}</span>
-                          </td>
-                          <td>
-                            <span className="tag tag-success">
-                              {student.jobType}
-                            </span>
-                          </td>
-                          <td>
-                            <span>{student.jobHours}</span>
-                          </td>
-                          <td>
-                            <span>{student.department}</span>
-                          </td>
-                          <td>
-                            <span>{student.jobDesignation}</span>
-                          </td>
-                          <td>
-                            <span>{student.employeeNumber}</span>
-                          </td>
-                          <td>
-                            <span>{student.description}</span>
-                          </td>
-                          <td>
-                            <span>{student.relievedDate}</span>
-                          </td>
 
                           <td>
                             <Link to={`/staff/${student.staffId}`}>
@@ -194,7 +172,7 @@ const StudentListView = ({
                               </button>
                             </Link>
 
-                            <Link to={`/staff/${student.staffId}`}>
+                            <Link to={`/student/${student.studentId}`}>
                               <button
                                 type="button"
                                 className="btn btn-icon btn-sm"
@@ -210,7 +188,11 @@ const StudentListView = ({
                               className="btn btn-icon btn-sm js-sweetalert"
                               title="Delete"
                               data-type="confirm"
-                              onClick={() => deleteStudentDispatch(student)}
+                              onClick={() =>
+                                deleteStudentByStudentIdDispatch(
+                                  student.studentId
+                                )
+                              }
                             >
                               <i className="fa fa-trash-o text-danger"></i>
                             </button>
@@ -223,6 +205,8 @@ const StudentListView = ({
             </div>
           </div>
         </div>
+      ) : (
+        FetchStudentsFailedFlashMessage
       )}
     </div>
   );
@@ -233,9 +217,9 @@ const mapStateToProps = createStructuredSelector({
   isLoading: selectStudentsIsLoading,
 });
 
-/* const mapDispatchToProps = (dispatch) => ({
-  deleteStudentDispatch: (student) => dispatch(deleteStaff(student)),
-  updateStudentDispatch: (student) => dispatch(updateStaff(student)),
-}); */
+const mapDispatchToProps = (dispatch) => ({
+  deleteStudentByStudentIdDispatch: (studentId) =>
+    dispatch(deleteStudentByStudentId(studentId)),
+});
 
-export default connect(mapStateToProps)(StudentListView);
+export default connect(mapStateToProps, mapDispatchToProps)(StudentListView);

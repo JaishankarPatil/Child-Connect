@@ -7,6 +7,11 @@ const INITIAL_STATE = {
   createStudentSuccessMessage: "",
   updateStudentSuccessMessage: "",
   deleteStudentSuccessMessage: "",
+  fetchAllStudentsErrorMessage: "",
+  fetchStudentByIdErrorMessage: "",
+  createStudentErrorMessage: "",
+  updateStudentErrorMessage: "",
+  deleteStudentErrorMessage: "",
   studentToUpdate: "",
 };
 
@@ -24,7 +29,7 @@ const studentReducer = (state = INITIAL_STATE, action) => {
       };
     case StudentActionTypes.FETCH_STUDENT_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchAllStudentsErrorMessage: action.payload,
         isLoading: false,
       };
     case StudentActionTypes.CREATE_STUDENT:
@@ -39,7 +44,7 @@ const studentReducer = (state = INITIAL_STATE, action) => {
       };
     case StudentActionTypes.CREATE_STUDENT_FAILURE:
       return {
-        errorMessage: action.payload,
+        createStudentErrorMessage: action.payload,
         isLoading: false,
       };
     case StudentActionTypes.FETCH_STUDENT_BYSTUDENTID_START:
@@ -54,7 +59,7 @@ const studentReducer = (state = INITIAL_STATE, action) => {
       };
     case StudentActionTypes.FETCH_STUDENT_BYSTUDENTID_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchStudentByIdErrorMessage: action.payload,
         isLoading: false,
       };
     case StudentActionTypes.UPDATE_STUDENT:
@@ -69,7 +74,7 @@ const studentReducer = (state = INITIAL_STATE, action) => {
       };
     case StudentActionTypes.UPDATE_STUDENT_FAILURE:
       return {
-        errorMessage: action.payload,
+        updateStudentErrorMessage: action.payload,
         isLoading: false,
       };
     case StudentActionTypes.DELETE_STUDENT:
@@ -84,7 +89,7 @@ const studentReducer = (state = INITIAL_STATE, action) => {
       };
     case StudentActionTypes.DELETE_STUDENT_FAILURE:
       return {
-        errorMessage: action.payload,
+        deleteStudentErrorMessage: action.payload,
         isLoading: false,
       };
     default:

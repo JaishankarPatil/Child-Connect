@@ -64,6 +64,8 @@ function* createSubjectAsync(api, action) {
 
 function* updateSubjectAsync(api, action) {
   try {
+    console.log("action.payload", action.payload);
+    alert("stop to check data");
     const response = yield call(api.updateSubject, action.payload);
     if (response.ok) {
       const successMessage = "Subject Updated Successfully";

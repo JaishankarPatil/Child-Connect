@@ -49,9 +49,9 @@ export const fetchStudentByStudentIdUpdateStart = (studentId) => ({
   payload: studentId,
 });
 
-export const fetchStudentByStudentIdUpdateSuccess = (student) => ({
+export const fetchStudentByStudentIdUpdateSuccess = (studentToUpdate) => ({
   type: StudentActionTypes.FETCH_STUDENT_BYSTUDENTID_SUCCESS,
-  payload: student,
+  payload: studentToUpdate,
 });
 
 export const fetchStudentByStudentIdUpdateFailure = (errorMessage) => ({

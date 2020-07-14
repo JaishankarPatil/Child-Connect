@@ -22,8 +22,13 @@ const history = createBrowserHistory();
 function* fetchDesignationsStartAsync(api, action) {
   try {
     const response = yield call(api.fetchAllDesignations);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
+      console.log("response.data", response.data);
+      alert("stop fetchDesignationsStartAsync");
       yield put(fetchDesignationSuccess(response.data));
+    } else {
+      const errorMessage = "Designation list is empty";
+      yield put(fetchDesignationFailure(errorMessage));
     }
   } catch (error) {
     yield put(fetchDesignationFailure(error.message));
@@ -41,7 +46,7 @@ function* fetchDesignationByDesignationIdStartAsync(api, action) {
     console.log("response", response);
     console.log("response", response.data);
     console.log("response", response.status);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
       yield put(fetchDesignationByDesignationIdUpdateSuccess(response.data));
     }
   } catch (error) {
@@ -52,8 +57,8 @@ function* fetchDesignationByDesignationIdStartAsync(api, action) {
 function* createDesignationAsync(api, action) {
   try {
     const response = yield call(api.createDesignation, action.payload);
-    const successMessage = "test";
     if (response.ok) {
+      const successMessage = "test";
       yield put(createDesignationSuccess(successMessage));
     } else {
       const errorMessage = "Failed To Create Designation";

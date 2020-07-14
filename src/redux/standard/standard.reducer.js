@@ -7,6 +7,11 @@ const INITIAL_STATE = {
   createStandardSuccessMessage: "",
   updateStandardSuccessMessage: "",
   deleteStandardSuccessMessage: "",
+  fetchAllStandardsErrorMessage: "",
+  fetchStandardByIdErrorMessage: "",
+  createStandardErrorMessage: "",
+  updateStandardErrorMessage: "",
+  deleteStandardErrorMessage: "",
   standardToUpdate: "",
 };
 
@@ -24,7 +29,7 @@ const standardReducer = (state = INITIAL_STATE, action) => {
       };
     case StandardActionTypes.FETCH_STANDARD_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchAllStandardsErrorMessage: action.payload,
         isLoading: false,
       };
     case StandardActionTypes.CREATE_STANDARD:
@@ -39,7 +44,7 @@ const standardReducer = (state = INITIAL_STATE, action) => {
       };
     case StandardActionTypes.CREATE_STANDARD_FAILURE:
       return {
-        errorMessage: action.payload,
+        createStandardErrorMessage: action.payload,
         isLoading: false,
       };
     case StandardActionTypes.FETCH_STANDARD_BYSTANDARDID_START:
@@ -54,7 +59,7 @@ const standardReducer = (state = INITIAL_STATE, action) => {
       };
     case StandardActionTypes.FETCH_STANDARD_BYSTANDARDID_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchStandardByIdErrorMessage: action.payload,
         isLoading: false,
       };
     case StandardActionTypes.UPDATE_STANDARD:
@@ -69,7 +74,7 @@ const standardReducer = (state = INITIAL_STATE, action) => {
       };
     case StandardActionTypes.UPDATE_STANDARD_FAILURE:
       return {
-        errorMessage: action.payload,
+        updateStandardErrorMessage: action.payload,
         isLoading: false,
       };
     case StandardActionTypes.DELETE_STANDARD:
@@ -84,7 +89,7 @@ const standardReducer = (state = INITIAL_STATE, action) => {
       };
     case StandardActionTypes.DELETE_STANDARD_FAILURE:
       return {
-        errorMessage: action.payload,
+        deleteStandardErrorMessage: action.payload,
         isLoading: false,
       };
     default:

@@ -3,7 +3,8 @@ import apisauce from "apisauce";
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
 const create = (
-  baseURL = "https://walkinchildconnect.cloudjiffy.net/ChildConnectAdminWeb"
+  //baseURL = "https://walkinchildconnect.cloudjiffy.net/ChildConnectAdminWeb"
+  baseURL = "https://newchildconnect.cloudjiffy.net/ChildConnectAdminWeb"
 ) => {
   // ------
   // STEP 1
@@ -25,8 +26,8 @@ const create = (
     timeout: 90240,
   });
 
-  const getAllStaffs = () => api.get(baseURL + "/staff/v1/queryAllStaffs");
-  const addStaff = (newStaff) =>
+  const fetchAllStaffs = () => api.get(baseURL + "/staff/v1/queryAllStaffs");
+  const createStaff = (newStaff) =>
     api.post(baseURL + "/staff/v1/createStaff", newStaff);
   const updateStaff = (updatedStaff) =>
     api.put(baseURL + "/staff/v1/updateStaff", updatedStaff);
@@ -36,7 +37,7 @@ const create = (
     api.delete(proxyurl + baseURL + `/staff/v1/deleteStaffById/${staffId}`);
 
   //student
-  const getAllStudents = () =>
+  const fetchAllStudents = () =>
     api.get(proxyurl + baseURL + "/student/v1/queryAllStudents");
   const createStudent = (newStudent) =>
     api.post(baseURL + "/student/v1/createStudent", newStudent);
@@ -126,8 +127,11 @@ const create = (
     api.get(baseURL + "/subject/v1/queryAllSubjects");
   const createSubject = (newSubject) =>
     api.post(baseURL + "/subject/v1/createSubject", newSubject);
-  const updateSubject = (subjectToUpdate) =>
+  const updateSubject = (subjectToUpdate) => {
+    console.log("subjectToUpdate API", subjectToUpdate);
+    alert("final api check");
     api.put(proxyurl + baseURL + "subject/v1/updateSubject", subjectToUpdate);
+  };
   const fetchSubjectBySubjectId = (subjectId) =>
     api.get(baseURL + `/subject/v1/querySubjectBySubjectId/${subjectId}`);
   const deleteSubject = (subjectId) =>
@@ -137,14 +141,14 @@ const create = (
 
   return {
     // a list of the API functions from step 2
-    getAllStaffs,
-    addStaff,
+    fetchAllStaffs,
+    createStaff,
     updateStaff,
     getStaffById,
     deleteStaff,
 
     //students
-    getAllStudents,
+    fetchAllStudents,
     createStudent,
     updateStudent,
     fetchStudentByStudentId,

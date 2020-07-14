@@ -17,6 +17,7 @@ import {
   selectDepartmentCreateErrorMessage,
   selectdeleteDepartmentErrorMessage,
   selectDepartmentUpdateErrorMessage,
+  selectDepartmentUpdateSuccessMessage,
 } from "../../../redux/department/department.selectors";
 import Spinner from "../../with-spinner/with-spinner.component";
 
@@ -53,9 +54,14 @@ class Department extends Component {
       departmentUpdateError,
       departmentDeleteError,
       departmentCreateError,
+      departmentUpdateSuccess,
     } = this.props;
 
-    if (departmentCreateSuccess || departmentDeleteSuccess) {
+    if (
+      departmentCreateSuccess ||
+      departmentDeleteSuccess ||
+      departmentUpdateSuccess
+    ) {
       isSuccess = true;
     }
 
@@ -187,6 +193,8 @@ class Department extends Component {
                 CreateDepartmentSuccessFlashMessage
               ) : null || departmentDeleteSuccess ? (
                 DeleteDepartmentSuccessFlashMessage
+              ) : null || departmentUpdateSuccess ? (
+                UpdateDepartmentSuccessFlashMessage
               ) : null || departmentUpdateError ? (
                 UpdateDepartmentFailedFlashMessage
               ) : null || departmentDeleteError ? (
@@ -225,6 +233,7 @@ const mapStateToProps = createStructuredSelector({
   departmentCreateError: selectDepartmentCreateErrorMessage,
   departmentDeleteError: selectdeleteDepartmentErrorMessage,
   departmentUpdateError: selectDepartmentUpdateErrorMessage,
+  departmentUpdateSuccess: selectDepartmentUpdateSuccessMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({

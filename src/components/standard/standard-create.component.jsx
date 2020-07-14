@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import SubmitButton from "../submit-button/submit-button.component";
-import { createDepartment } from "../../redux/department/department.actions";
+import { createStandard } from "../../redux/standard/standard.actions";
 
-class DepartmentCreate extends Component {
+class StandardCreate extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      departmentDetails: {
-        departmentName: "",
+      standardDetails: {
+        standardName: "",
         description: "",
       },
     };
@@ -17,28 +17,28 @@ class DepartmentCreate extends Component {
 
   handelSubmit = (event) => {
     event.preventDefault();
-    const { createDepartmentDispatch } = this.props;
-    const { departmentDetails } = this.state;
+    const { createStandardDispatch } = this.props;
+    const { standardDetails } = this.state;
 
-    createDepartmentDispatch(departmentDetails);
+    createStandardDispatch(standardDetails);
   };
 
   changeHandler = (event) => {
     const { value, name } = event.target;
-    let item = { ...this.state.departmentDetails };
+    let item = { ...this.state.standardDetails };
     item[name] = value;
-    this.setState({ departmentDetails: item });
+    this.setState({ standardDetails: item });
   };
 
   render() {
-    const { departmentDetails } = this.state;
+    const { standardDetails } = this.state;
 
     return (
       <div className="tab-pane" id="Staff-add">
         <div className="row clearfix">
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Department DETAILS</h3>
+              <h3 className="card-title">Standard DETAILS</h3>
               <div className="card-options ">
                 <a
                   href="#"
@@ -65,13 +65,13 @@ class DepartmentCreate extends Component {
 
                   <div className="col-md-4 col-sm-12">
                     <div className="form-group">
-                      <label>Department Name</label>
+                      <label>Standard Name</label>
                       <input
                         type="text"
-                        name="departmentName"
+                        name="standardName"
                         className="form-control"
                         onChange={this.changeHandler}
-                        value={departmentDetails.departmentName}
+                        value={standardDetails.standardName}
                       ></input>
                     </div>
                   </div>
@@ -86,7 +86,7 @@ class DepartmentCreate extends Component {
                       <textarea
                         name="description"
                         onChange={this.changeHandler}
-                        value={departmentDetails.description}
+                        value={standardDetails.description}
                         rows="4"
                         className="form-control no-resize"
                         placeholder="Please type what you want..."
@@ -94,7 +94,7 @@ class DepartmentCreate extends Component {
                     </div>
                   </div>
 
-                  <SubmitButton buttonName={`Add Department`} />
+                  <SubmitButton buttonName={`Add Standard`} />
                 </div>
               </form>
             </div>
@@ -106,8 +106,8 @@ class DepartmentCreate extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  createDepartmentDispatch: (newDepartment) =>
-    dispatch(createDepartment(newDepartment)),
+  createStandardDispatch: (newStandard) =>
+    dispatch(createStandard(newStandard)),
 });
 
-export default connect(null, mapDispatchToProps)(DepartmentCreate);
+export default connect(null, mapDispatchToProps)(StandardCreate);

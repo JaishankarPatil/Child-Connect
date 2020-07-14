@@ -5,23 +5,23 @@ import Spinner from "../with-spinner/with-spinner.component";
 
 import SubmitButton from "../submit-button/submit-button.component";
 import {
-  selectDepartmentsIsLoading,
-  selectDepartmentToUpdate,
-  selectDepartmentUpdateErrorMessage,
-  selectDepartmentUpdateSuccessMessage,
-  selectDepartmentByIdErrorMessage,
-} from "../../redux/department/department.selectors";
+  selectDesignationsIsLoading,
+  selectDesignationToUpdate,
+  selectDesignationUpdateErrorMessage,
+  selectDesignationUpdateSuccessMessage,
+  selectDesignationByIdErrorMessage,
+} from "../../redux/designation/designation.selectors";
 import {
-  fetchDepartmentByDepartmentIdUpdateStart,
-  updateDepartment,
-} from "../../redux/department/department.actions";
+  fetchDesignationByDesignationIdUpdateStart,
+  updateDesignation,
+} from "../../redux/designation/designation.actions";
 
-class DepartmentUpdate extends React.Component {
+class DesignationUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      departmentDetails: {
-        departmentName: "",
+      designationDetails: {
+        designationName: "",
         description: "",
       },
     };
@@ -29,9 +29,9 @@ class DepartmentUpdate extends React.Component {
 
   handelSubmit = (event) => {
     event.preventDefault();
-    const { updateDepartmentDispatch, history } = this.props;
-    const { departmentDetails } = this.state;
-    updateDepartmentDispatch(departmentDetails);
+    const { updateDesignationDispatch, history } = this.props;
+    const { designationDetails } = this.state;
+    updateDesignationDispatch(designationDetails);
   };
 
   changeHandler = (event) => {
@@ -40,21 +40,22 @@ class DepartmentUpdate extends React.Component {
     console.log("name", name);
     console.log("value", value);
 
-    let item = { ...this.state.departmentDetails };
+    let item = { ...this.state.designationDetails };
     item[name] = value;
 
     console.log("item", item);
 
-    this.setState({ departmentDetails: item });
+    this.setState({ designationDetails: item });
   };
 
   componentDidMount() {
-    console.log(`${this.props.match.params.departmentId}`);
+    console.log(`${this.props.match.params.designationId}`);
     alert("componentDidMount");
 
-    const { fetchDepartmentByIdDispatch } = this.props;
-    const subjcetId = this.props.match.params.departmentId;
-    fetchDepartmentByIdDispatch(subjcetId);
+    const { fetchDesignationByIdDispatch, designationToUpdate } = this.props;
+    const subjcetId = this.props.match.params.designationId;
+    fetchDesignationByIdDispatch(subjcetId);
+    console.log("designationToUpdate", designationToUpdate);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,43 +65,42 @@ class DepartmentUpdate extends React.Component {
   }
 
   initialize(nextProps) {
-    const departmentToUpdateData = nextProps.departmentToUpdate;
-    console.log("nextProps", nextProps);
-    console.log("departmentToUpdateData", departmentToUpdateData);
+    const designationToUpdateData = nextProps.designationToUpdate;
+    console.log("designationToUpdateData", designationToUpdateData);
 
     alert("stop");
-    this.setState({ departmentDetails: departmentToUpdateData });
+    this.setState({ designationDetails: designationToUpdateData });
   }
 
   reloadThePage(history) {
-    history.push("/department");
+    history.push("/designation");
   }
 
   onErrorRedirect(history) {
-    history.push("/department");
+    history.push("/designation");
   }
 
   render() {
     let isError = false;
     let isSuccess = false;
-    const { departmentDetails } = this.state;
+    const { designationDetails } = this.state;
     const {
-      departmentUpdateError,
+      designationUpdateError,
       history,
       isLoading,
-      departmentUpdateSuccess,
+      designationUpdateSuccess,
     } = this.props;
-    if (departmentUpdateError) {
+    if (designationUpdateError) {
       isError = true;
     }
 
-    if (departmentUpdateSuccess) {
+    if (designationUpdateSuccess) {
       isSuccess = true;
     }
 
-    const UpdateDepartmentSuccessFlashMessage = (
+    const UpdateDesignationSuccessFlashMessage = (
       <div class="alert alert-success" role="alert">
-        Department is updated SuccessFully!
+        Designation is updated SuccessFully!
         <button
           type="button"
           class="close"
@@ -111,9 +111,9 @@ class DepartmentUpdate extends React.Component {
       </div>
     );
 
-    const UpdateDepartmentFailedFlashMessage = (
+    const UpdateDesignationFailedFlashMessage = (
       <div class="alert alert-danger" role="alert">
-        Failed To update department, please contact{" "}
+        Failed To update designation, please contact{" "}
         <a href="#" class="alert-link">
           SUPPORT@CHILD-CONNECT.com
         </a>
@@ -131,10 +131,10 @@ class DepartmentUpdate extends React.Component {
       <div>
         {isError || isSuccess ? (
           //this.onErrorRedirect(history)
-          departmentUpdateError ? (
-            UpdateDepartmentFailedFlashMessage
-          ) : null || departmentUpdateSuccess ? (
-            UpdateDepartmentSuccessFlashMessage
+          designationUpdateSuccess ? (
+            UpdateDesignationSuccessFlashMessage
+          ) : null || designationUpdateError ? (
+            UpdateDesignationFailedFlashMessage
           ) : null
         ) : isLoading ? (
           <Spinner />
@@ -143,7 +143,7 @@ class DepartmentUpdate extends React.Component {
             <div className="row clearfix">
               <div className="card">
                 <div className="card-header">
-                  <h3 className="card-title">Update Department Details</h3>
+                  <h3 className="card-title">Update Designation Details</h3>
                   <div className="card-options ">
                     <a
                       href="#"
@@ -170,13 +170,13 @@ class DepartmentUpdate extends React.Component {
 
                       <div className="col-md-4 col-sm-12">
                         <div className="form-group">
-                          <label>Department Name</label>
+                          <label>Designation Name</label>
                           <input
                             type="text"
-                            name="departmentName"
+                            name="designationName"
                             className="form-control"
                             onChange={this.changeHandler}
-                            value={departmentDetails.departmentName}
+                            value={designationDetails.designationName}
                           ></input>
                         </div>
                       </div>
@@ -191,7 +191,7 @@ class DepartmentUpdate extends React.Component {
                           <textarea
                             name="description"
                             onChange={this.changeHandler}
-                            value={departmentDetails.description}
+                            value={designationDetails.description}
                             rows="4"
                             className="form-control no-resize"
                             placeholder="Please type what you want..."
@@ -199,7 +199,7 @@ class DepartmentUpdate extends React.Component {
                         </div>
                       </div>
 
-                      <SubmitButton buttonName={`Update Department`} />
+                      <SubmitButton buttonName={`Update Designation`} />
                     </div>
                   </form>
                 </div>
@@ -213,18 +213,18 @@ class DepartmentUpdate extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  isLoading: selectDepartmentsIsLoading,
-  departmentToUpdate: selectDepartmentToUpdate,
-  departmentUpdateError: selectDepartmentUpdateErrorMessage,
-  departmentUpdateSuccess: selectDepartmentUpdateSuccessMessage,
-  selectDepartmentByIdError: selectDepartmentByIdErrorMessage,
+  isLoading: selectDesignationsIsLoading,
+  designationToUpdate: selectDesignationToUpdate,
+  designationUpdateError: selectDesignationUpdateErrorMessage,
+  designationUpdateSuccess: selectDesignationUpdateSuccessMessage,
+  designationByIdError: selectDesignationByIdErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchDepartmentByIdDispatch: (departmentId) =>
-    dispatch(fetchDepartmentByDepartmentIdUpdateStart(departmentId)),
-  updateDepartmentDispatch: (departmentToUpdate) =>
-    dispatch(updateDepartment(departmentToUpdate)),
+  fetchDesignationByIdDispatch: (designationId) =>
+    dispatch(fetchDesignationByDesignationIdUpdateStart(designationId)),
+  updateDesignationDispatch: (designationToUpdate) =>
+    dispatch(updateDesignation(designationToUpdate)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepartmentUpdate);
+export default connect(mapStateToProps, mapDispatchToProps)(DesignationUpdate);

@@ -16,14 +16,16 @@ import {
 } from "../../redux/staff/staff.actions";
 
 const api = API.create();
-const RESPONSE_STATUS_SUCCESS = 200;
 const history = createBrowserHistory();
 
 function* fetchStaffsStartAsync(api, action) {
   try {
     const response = yield call(api.fetchAllStaffs);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
       yield put(fetchStaffSuccess(response.data));
+    } else {
+      const errorMessage = "Failed to fatch staffs";
+      yield put(fetchStaffFailure(errorMessage));
     }
   } catch (error) {
     yield put(fetchStaffFailure(error.message));
@@ -38,8 +40,11 @@ function* fetchStaffByStaffIdStartAsync(api, action) {
     console.log("response", response);
     console.log("response", response.data);
     console.log("response", response.status);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
       yield put(fetchStaffByStaffIdUpdateSuccess(response.data));
+    } else {
+      const errorMessage = "Failed to fetch staff by styaff Id";
+      yield put(fetchStaffByStaffIdUpdateFailure(errorMessage));
     }
   } catch (error) {
     yield put(fetchStaffByStaffIdUpdateFailure(error.message));
@@ -47,6 +52,8 @@ function* fetchStaffByStaffIdStartAsync(api, action) {
 }
 
 function* createStaffAsync(api, action) {
+  console.log("action.payload", action.payload);
+  alert("createStaffAsync");
   try {
     const response = yield call(api.createStaff, action.payload);
     const successMessage = "test";

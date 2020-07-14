@@ -2,9 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { createStructuredSelector } from "reselect";
-import { selectDepartments } from "../../redux/department/department.selectors";
-import { deleteDepartmentByDepartmentId } from "../../redux/department/department.actions";
-
+import { selectGroups } from "../../redux/group/group.selectors";
+import { deleteGroupByGroupId } from "../../redux/group/group.actions";
 import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 
@@ -12,16 +11,10 @@ const reloadThePage = (history) => {
   history.go(0);
 };
 
-const DepartmentListView = ({
-  departmentList,
-  deleteDepartmentByDepartmentIdDispatch,
-}) => {
-  console.log("departmentList", departmentList);
-  console.log("history", history);
-
-  const FetchDepartmentsFailedFlashMessage = (
+const GroupListView = ({ groupList, deleteGroupByGroupIdDispatch }) => {
+  const FetchGroupsFailedFlashMessage = (
     <div class="alert alert-danger" role="alert">
-      No departments availebel please contact admin{" "}
+      No grops found contact admin{" "}
       <a href="#" class="alert-link">
         SUPPORT@childconnect.com
       </a>
@@ -37,8 +30,8 @@ const DepartmentListView = ({
 
   return (
     <div>
-      {departmentList ? (
-        <div className="tab-pane active" id="Staff-all">
+      {groupList ? (
+        <div className="tab-pane active" id="Group-all">
           <div className="card">
             <div className="table-responsive">
               <table className="table table-hover table-vcenter text-nowrap table-striped mb-0">
@@ -53,9 +46,9 @@ const DepartmentListView = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {departmentList.length
-                    ? departmentList.map((department) => (
-                        <tr key={department.departmentId}>
+                  {groupList.length
+                    ? groupList.map((group) => (
+                        <tr key={group.groupId}>
                           <td className="w60">
                             <div
                               className="avatar avatar-pink"
@@ -64,22 +57,22 @@ const DepartmentListView = ({
                               title=""
                               data-original-title="Avatar Name"
                             >
-                              <span>{department.departmentId}</span>
+                              <span>{group.groupId}</span>
                             </div>
                           </td>
                           <td>
                             <Link to="/groupmember">
-                              <span>{department.departmentName}</span>
+                              <span>{group.groupName}</span>
                             </Link>
                           </td>
                           <td>
-                            <span>{department.departmentName}</span>
+                            <span>{group.groupName}</span>
                           </td>
                           <td>
-                            <span>{department.departmentName}</span>
+                            <span>{group.groupName}</span>
                           </td>
                           <td>
-                            <span>{department.description}</span>
+                            <span>{group.groupName}</span>
                           </td>
 
                           <td>
@@ -90,7 +83,7 @@ const DepartmentListView = ({
                             >
                               <i className="fa fa-eye"></i>
                             </button>
-                            <Link to={`/department/${department.departmentId}`}>
+                            <Link to={`/group/${group.groupId}`}>
                               <button
                                 type="button"
                                 className="btn btn-icon btn-sm"
@@ -105,9 +98,7 @@ const DepartmentListView = ({
                               title="Delete"
                               data-type="confirm"
                               onClick={() =>
-                                deleteDepartmentByDepartmentIdDispatch(
-                                  department.departmentId
-                                )
+                                deleteGroupByGroupIdDispatch(group.groupId)
                               }
                             >
                               <i className="fa fa-trash-o text-danger"></i>
@@ -122,19 +113,19 @@ const DepartmentListView = ({
           </div>
         </div>
       ) : (
-        FetchDepartmentsFailedFlashMessage
+        FetchGroupsFailedFlashMessage
       )}
     </div>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
-  departmentList: selectDepartments,
+  groupList: selectGroups,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteDepartmentByDepartmentIdDispatch: (subjectId) =>
-    dispatch(deleteDepartmentByDepartmentId(subjectId)),
+  deleteGroupByGroupIdDispatch: (groupId) =>
+    dispatch(deleteGroupByGroupId(groupId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepartmentListView);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupListView);

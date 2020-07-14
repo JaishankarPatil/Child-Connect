@@ -3,10 +3,14 @@ import StaffActionTypes from "./staff.types";
 const INITIAL_STATE = {
   staffs: [],
   isLoading: false,
-  errorMessage: "",
   createStaffSuccessMessage: "",
   updateStaffSuccessMessage: "",
   deleteStaffSuccessMessage: "",
+  fetchAllStaffsErrorMessage: "",
+  fetchStaffByIdErrorMessage: "",
+  createStaffErrorMessage: "",
+  updateStaffErrorMessage: "",
+  deleteStaffErrorMessage: "",
   staffToUpdate: "",
 };
 
@@ -24,7 +28,7 @@ const staffReducer = (state = INITIAL_STATE, action) => {
       };
     case StaffActionTypes.FETCH_STAFF_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchAllStaffsErrorMessage: action.payload,
         isLoading: false,
       };
     case StaffActionTypes.CREATE_STAFF:
@@ -39,7 +43,7 @@ const staffReducer = (state = INITIAL_STATE, action) => {
       };
     case StaffActionTypes.CREATE_STAFF_FAILURE:
       return {
-        errorMessage: action.payload,
+        createStaffErrorMessage: action.payload,
         isLoading: false,
       };
     case StaffActionTypes.FETCH_STAFF_BYSTAFFID_START:
@@ -54,7 +58,7 @@ const staffReducer = (state = INITIAL_STATE, action) => {
       };
     case StaffActionTypes.FETCH_STAFF_BYSTAFFID_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchStaffByIdErrorMessage: action.payload,
         isLoading: false,
       };
     case StaffActionTypes.UPDATE_STAFF:
@@ -69,7 +73,7 @@ const staffReducer = (state = INITIAL_STATE, action) => {
       };
     case StaffActionTypes.UPDATE_STAFF_FAILURE:
       return {
-        errorMessage: action.payload,
+        updateStaffErrorMessage: action.payload,
         isLoading: false,
       };
     case StaffActionTypes.DELETE_STAFF:
@@ -84,7 +88,7 @@ const staffReducer = (state = INITIAL_STATE, action) => {
       };
     case StaffActionTypes.DELETE_STAFF_FAILURE:
       return {
-        errorMessage: action.payload,
+        deleteStaffErrorMessage: action.payload,
         isLoading: false,
       };
     default:

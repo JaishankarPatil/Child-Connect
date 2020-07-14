@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectStandards } from "../../redux/standard/standard.selectors";
 import { createStructuredSelector } from "reselect";
-import { selectDepartments } from "../../redux/department/department.selectors";
-import { deleteDepartmentByDepartmentId } from "../../redux/department/department.actions";
-
+import { deleteStandardByStandardId } from "../../redux/standard/standard.actions";
 import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 
@@ -12,16 +11,16 @@ const reloadThePage = (history) => {
   history.go(0);
 };
 
-const DepartmentListView = ({
-  departmentList,
-  deleteDepartmentByDepartmentIdDispatch,
+const StandardListView = ({
+  standardList,
+  deleteStandardByStandardIdDispatch,
 }) => {
-  console.log("departmentList", departmentList);
-  console.log("history", history);
+  console.log("standardList", standardList);
+  alert("standardList");
 
-  const FetchDepartmentsFailedFlashMessage = (
+  const FetchStandardsFailedFlashMessage = (
     <div class="alert alert-danger" role="alert">
-      No departments availebel please contact admin{" "}
+      No standards availebel please contact admin{" "}
       <a href="#" class="alert-link">
         SUPPORT@childconnect.com
       </a>
@@ -37,7 +36,7 @@ const DepartmentListView = ({
 
   return (
     <div>
-      {departmentList ? (
+      {standardList ? (
         <div className="tab-pane active" id="Staff-all">
           <div className="card">
             <div className="table-responsive">
@@ -53,9 +52,9 @@ const DepartmentListView = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {departmentList.length
-                    ? departmentList.map((department) => (
-                        <tr key={department.departmentId}>
+                  {standardList.length
+                    ? standardList.map((standard) => (
+                        <tr key={standard.standardId}>
                           <td className="w60">
                             <div
                               className="avatar avatar-pink"
@@ -64,22 +63,20 @@ const DepartmentListView = ({
                               title=""
                               data-original-title="Avatar Name"
                             >
-                              <span>{department.departmentId}</span>
+                              <span>{standard.standardId}</span>
                             </div>
                           </td>
                           <td>
-                            <Link to="/groupmember">
-                              <span>{department.departmentName}</span>
-                            </Link>
+                            <span>{standard.standardName}</span>
                           </td>
                           <td>
-                            <span>{department.departmentName}</span>
+                            <span>{standard.standardName}</span>
                           </td>
                           <td>
-                            <span>{department.departmentName}</span>
+                            <span>{standard.standardName}</span>
                           </td>
                           <td>
-                            <span>{department.description}</span>
+                            <span>{standard.description}</span>
                           </td>
 
                           <td>
@@ -90,7 +87,7 @@ const DepartmentListView = ({
                             >
                               <i className="fa fa-eye"></i>
                             </button>
-                            <Link to={`/department/${department.departmentId}`}>
+                            <Link to={`/standard/${standard.standardId}`}>
                               <button
                                 type="button"
                                 className="btn btn-icon btn-sm"
@@ -105,8 +102,8 @@ const DepartmentListView = ({
                               title="Delete"
                               data-type="confirm"
                               onClick={() =>
-                                deleteDepartmentByDepartmentIdDispatch(
-                                  department.departmentId
+                                deleteStandardByStandardIdDispatch(
+                                  standard.standardId
                                 )
                               }
                             >
@@ -122,19 +119,19 @@ const DepartmentListView = ({
           </div>
         </div>
       ) : (
-        FetchDepartmentsFailedFlashMessage
+        FetchStandardsFailedFlashMessage
       )}
     </div>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
-  departmentList: selectDepartments,
+  standardList: selectStandards,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteDepartmentByDepartmentIdDispatch: (subjectId) =>
-    dispatch(deleteDepartmentByDepartmentId(subjectId)),
+  deleteStandardByStandardIdDispatch: (standardId) =>
+    dispatch(deleteStandardByStandardId(standardId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepartmentListView);
+export default connect(mapStateToProps, mapDispatchToProps)(StandardListView);

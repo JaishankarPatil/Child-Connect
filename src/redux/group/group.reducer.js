@@ -3,10 +3,14 @@ import GroupActionTypes from "./group.types";
 const INITIAL_STATE = {
   groups: [],
   isLoading: false,
-  errorMessage: "",
   createGroupSuccessMessage: "",
   updateGroupSuccessMessage: "",
   deleteGroupSuccessMessage: "",
+  fetchAllGroupsErrorMessage: "",
+  fetchGroupByIdErrorMessage: "",
+  createGroupErrorMessage: "",
+  updateGroupErrorMessage: "",
+  deleteGroupErrorMessage: "",
   groupToUpdate: "",
 };
 
@@ -24,7 +28,7 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       };
     case GroupActionTypes.FETCH_GROUP_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchAllGroupsErrorMessage: action.payload,
         isLoading: false,
       };
     case GroupActionTypes.CREATE_GROUP:
@@ -39,7 +43,7 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       };
     case GroupActionTypes.CREATE_GROUP_FAILURE:
       return {
-        errorMessage: action.payload,
+        createGroupErrorMessage: action.payload,
         isLoading: false,
       };
     case GroupActionTypes.FETCH_GROUP_BYGROUPID_START:
@@ -54,7 +58,7 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       };
     case GroupActionTypes.FETCH_GROUP_BYGROUPID_FAILURE:
       return {
-        errorMessage: action.payload,
+        fetchGroupByIdErrorMessage: action.payload,
         isLoading: false,
       };
     case GroupActionTypes.UPDATE_GROUP:
@@ -69,7 +73,7 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       };
     case GroupActionTypes.UPDATE_GROUP_FAILURE:
       return {
-        errorMessage: action.payload,
+        updateGroupErrorMessage: action.payload,
         isLoading: false,
       };
     case GroupActionTypes.DELETE_GROUP:
@@ -84,7 +88,7 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       };
     case GroupActionTypes.DELETE_GROUP_FAILURE:
       return {
-        errorMessage: action.payload,
+        deleteGroupErrorMessage: action.payload,
         isLoading: false,
       };
     default:

@@ -1,10 +1,13 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { selectDepartments } from "../../redux/department/department.selectors";
-import { deleteDepartmentByDepartmentId } from "../../redux/department/department.actions";
+import {
+  selectSubjects,
+  selectSubjectsErrorMessage,
+} from "../../redux/subject/subject.selectors";
 
+import { deleteSubjectBySubjectId } from "../../redux/subject/subject.actions";
 import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 
@@ -12,16 +15,14 @@ const reloadThePage = (history) => {
   history.go(0);
 };
 
-const DepartmentListView = ({
-  departmentList,
-  deleteDepartmentByDepartmentIdDispatch,
+const SubjectListView = ({
+  subjectList,
+  deleteSubjectBySubjectIdDispatch,
+  subjectsErrorMessage,
 }) => {
-  console.log("departmentList", departmentList);
-  console.log("history", history);
-
-  const FetchDepartmentsFailedFlashMessage = (
+  const FetchSubjectsFailedFlashMessage = (
     <div class="alert alert-danger" role="alert">
-      No departments availebel please contact admin{" "}
+      No subjects availebel please contact admin{" "}
       <a href="#" class="alert-link">
         SUPPORT@childconnect.com
       </a>
@@ -37,7 +38,7 @@ const DepartmentListView = ({
 
   return (
     <div>
-      {departmentList ? (
+      {subjectList ? (
         <div className="tab-pane active" id="Staff-all">
           <div className="card">
             <div className="table-responsive">
@@ -53,9 +54,9 @@ const DepartmentListView = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {departmentList.length
-                    ? departmentList.map((department) => (
-                        <tr key={department.departmentId}>
+                  {subjectList.length
+                    ? subjectList.map((subject) => (
+                        <tr key={subject.subjectId}>
                           <td className="w60">
                             <div
                               className="avatar avatar-pink"
@@ -64,22 +65,20 @@ const DepartmentListView = ({
                               title=""
                               data-original-title="Avatar Name"
                             >
-                              <span>{department.departmentId}</span>
+                              <span>{subject.subjectId}</span>
                             </div>
                           </td>
                           <td>
-                            <Link to="/groupmember">
-                              <span>{department.departmentName}</span>
-                            </Link>
+                            <span>{subject.subjectName}</span>
                           </td>
                           <td>
-                            <span>{department.departmentName}</span>
+                            <span>{subject.description}</span>
                           </td>
                           <td>
-                            <span>{department.departmentName}</span>
+                            <span>{subject.description}</span>
                           </td>
                           <td>
-                            <span>{department.description}</span>
+                            <span>{subject.description}</span>
                           </td>
 
                           <td>
@@ -90,7 +89,7 @@ const DepartmentListView = ({
                             >
                               <i className="fa fa-eye"></i>
                             </button>
-                            <Link to={`/department/${department.departmentId}`}>
+                            <Link to={`/subject/${subject.subjectId}`}>
                               <button
                                 type="button"
                                 className="btn btn-icon btn-sm"
@@ -105,8 +104,8 @@ const DepartmentListView = ({
                               title="Delete"
                               data-type="confirm"
                               onClick={() =>
-                                deleteDepartmentByDepartmentIdDispatch(
-                                  department.departmentId
+                                deleteSubjectBySubjectIdDispatch(
+                                  subject.subjectId
                                 )
                               }
                             >
@@ -122,19 +121,20 @@ const DepartmentListView = ({
           </div>
         </div>
       ) : (
-        FetchDepartmentsFailedFlashMessage
+        FetchSubjectsFailedFlashMessage
       )}
     </div>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
-  departmentList: selectDepartments,
+  subjectList: selectSubjects,
+  subjectsErrorMessage: selectSubjectsErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteDepartmentByDepartmentIdDispatch: (subjectId) =>
-    dispatch(deleteDepartmentByDepartmentId(subjectId)),
+  deleteSubjectBySubjectIdDispatch: (subjectId) =>
+    dispatch(deleteSubjectBySubjectId(subjectId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepartmentListView);
+export default connect(mapStateToProps, mapDispatchToProps)(SubjectListView);

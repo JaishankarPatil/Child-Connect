@@ -1,38 +1,37 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-
-import { withRouter, Link } from "react-router-dom";
-import { Route, Redirect } from "react-router";
+import Spinner from "../with-spinner/with-spinner.component";
 
 import SubmitButton from "../submit-button/submit-button.component";
 import {
-  selectSubjectToUpdate,
-  selectSubjectUpdateErrorMessage,
-  selectSubjectUpdateSuccessMessage,
-  selectSubjectByIdErrorMessage,
-} from "../../redux/subject/subject.selectors";
+  selectStandardsIsLoading,
+  selectStandardToUpdate,
+  selectStandardUpdateErrorMessage,
+  selectStandardUpdateSuccessMessage,
+  selectStandardByIdErrorMessage,
+} from "../../redux/standard/standard.selectors";
 import {
-  fetchSubjectBySubjectIdUpdateStart,
-  updateSubject,
-} from "../../redux/subject/subject.actions";
+  fetchStandardByStandardIdUpdateStart,
+  updateStandard,
+} from "../../redux/standard/standard.actions";
 
-class SubjectUpdate extends React.Component {
+class StandardUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      subjectDetails: {
-        subjectName: "",
-        discription: "",
+      standardDetails: {
+        standardName: "",
+        description: "",
       },
     };
   }
 
   handelSubmit = (event) => {
     event.preventDefault();
-    const { updateSubjectDispatch, history } = this.props;
-    const { subjectDetails } = this.state;
-    updateSubjectDispatch(subjectDetails);
+    const { updateStandardDispatch, history } = this.props;
+    const { standardDetails } = this.state;
+    updateStandardDispatch(standardDetails);
   };
 
   changeHandler = (event) => {
@@ -41,51 +40,67 @@ class SubjectUpdate extends React.Component {
     console.log("name", name);
     console.log("value", value);
 
-    let item = { ...this.state.subjectDetails };
+    let item = { ...this.state.standardDetails };
     item[name] = value;
 
     console.log("item", item);
 
-    this.setState({ subjectDetails: item });
+    this.setState({ standardDetails: item });
   };
 
   componentDidMount() {
-    console.log(`${this.props.match.params.subjectId}`);
+    console.log(`${this.props.match.params.standardId}`);
+    alert("componentDidMount");
 
-    const { fetchSubjectByIdDispatch, subjectToUpdate } = this.props;
-    const subjcetId = this.props.match.params.subjectId;
-    fetchSubjectByIdDispatch(subjcetId);
-    console.log("subjectToUpdate", subjectToUpdate);
+    const { fetchStandardByIdDispatch, standardToUpdate } = this.props;
+    const subjcetId = this.props.match.params.standardId;
+    fetchStandardByIdDispatch(subjcetId);
+    console.log("standardToUpdate", standardToUpdate);
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("nextProps", nextProps);
+    alert("componentWillReceiveProps");
     this.initialize(nextProps);
   }
 
   initialize(nextProps) {
-    const subjectToUpdateData = nextProps.subjectToUpdate;
-    this.setState({ subjectDetails: subjectToUpdateData });
+    const standardToUpdateData = nextProps.standardToUpdate;
+    console.log("standardToUpdateData", standardToUpdateData);
+
+    alert("stop");
+    this.setState({ standardDetails: standardToUpdateData });
   }
 
   reloadThePage(history) {
-    history.push("/subject");
+    history.push("/standard");
   }
 
   onErrorRedirect(history) {
-    history.push("/subject");
+    history.push("/standard");
   }
 
   render() {
-    let isErrorMessage = false;
-    const { subjectDetails } = this.state;
-    const { selectSubjectUpdateError, history } = this.props;
-    if (selectSubjectUpdateError) {
-      isErrorMessage = true;
+    let isError = false;
+    let isSuccess = false;
+    const { standardDetails } = this.state;
+    const {
+      standardUpdateError,
+      history,
+      isLoading,
+      standardUpdateSuccess,
+    } = this.props;
+    if (standardUpdateError) {
+      isError = true;
     }
 
-    const UpdateSubjectSuccessFlashMessage = (
+    if (standardUpdateSuccess) {
+      isSuccess = true;
+    }
+
+    const UpdateStandardSuccessFlashMessage = (
       <div class="alert alert-success" role="alert">
-        Subject is updated SuccessFully!
+        Standard is updated SuccessFully!
         <button
           type="button"
           class="close"
@@ -96,9 +111,9 @@ class SubjectUpdate extends React.Component {
       </div>
     );
 
-    const UpdateSubjectFailedFlashMessage = (
+    const UpdateStandardFailedFlashMessage = (
       <div class="alert alert-danger" role="alert">
-        Failed To update subject, please contact{" "}
+        Failed To update standard, please contact{" "}
         <a href="#" class="alert-link">
           SUPPORT@CHILD-CONNECT.com
         </a>
@@ -114,15 +129,21 @@ class SubjectUpdate extends React.Component {
 
     return (
       <div>
-        {isErrorMessage ? (
+        {isError || isSuccess ? (
           //this.onErrorRedirect(history)
-          UpdateSubjectFailedFlashMessage
+          standardUpdateSuccess ? (
+            UpdateStandardSuccessFlashMessage
+          ) : null || standardUpdateError ? (
+            UpdateStandardFailedFlashMessage
+          ) : null
+        ) : isLoading ? (
+          <Spinner />
         ) : (
           <div className="tab-pane" id="Staff-add">
             <div className="row clearfix">
               <div className="card">
                 <div className="card-header">
-                  <h3 className="card-title">Update Subject Details</h3>
+                  <h3 className="card-title">Update Standard Details</h3>
                   <div className="card-options ">
                     <a
                       href="#"
@@ -149,13 +170,13 @@ class SubjectUpdate extends React.Component {
 
                       <div className="col-md-4 col-sm-12">
                         <div className="form-group">
-                          <label>Subject Name</label>
+                          <label>Standard Name</label>
                           <input
                             type="text"
-                            name="subjectName"
+                            name="standardName"
                             className="form-control"
                             onChange={this.changeHandler}
-                            value={subjectDetails.subjectName}
+                            value={standardDetails.standardName}
                           ></input>
                         </div>
                       </div>
@@ -168,9 +189,9 @@ class SubjectUpdate extends React.Component {
                         <div className="form-group mt-3">
                           <label>Description</label>
                           <textarea
-                            name="discription"
+                            name="description"
                             onChange={this.changeHandler}
-                            value={subjectDetails.discription}
+                            value={standardDetails.description}
                             rows="4"
                             className="form-control no-resize"
                             placeholder="Please type what you want..."
@@ -178,7 +199,7 @@ class SubjectUpdate extends React.Component {
                         </div>
                       </div>
 
-                      <SubmitButton buttonName={`Update Subject`} />
+                      <SubmitButton buttonName={`Update Standard`} />
                     </div>
                   </form>
                 </div>
@@ -192,17 +213,18 @@ class SubjectUpdate extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  subjectToUpdate: selectSubjectToUpdate,
-  selectSubjectUpdateError: selectSubjectUpdateErrorMessage,
-  selectSubjectUpdateSuccess: selectSubjectUpdateSuccessMessage,
-  selectSubjectByIdError: selectSubjectByIdErrorMessage,
+  isLoading: selectStandardsIsLoading,
+  standardToUpdate: selectStandardToUpdate,
+  standardUpdateError: selectStandardUpdateErrorMessage,
+  standardUpdateSuccess: selectStandardUpdateSuccessMessage,
+  standardByIdError: selectStandardByIdErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchSubjectByIdDispatch: (subjectId) =>
-    dispatch(fetchSubjectBySubjectIdUpdateStart(subjectId)),
-  updateSubjectDispatch: (subjectToUpdate) =>
-    dispatch(updateSubject(subjectToUpdate)),
+  fetchStandardByIdDispatch: (standardId) =>
+    dispatch(fetchStandardByStandardIdUpdateStart(standardId)),
+  updateStandardDispatch: (standardToUpdate) =>
+    dispatch(updateStandard(standardToUpdate)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubjectUpdate);
+export default connect(mapStateToProps, mapDispatchToProps)(StandardUpdate);

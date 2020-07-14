@@ -5,23 +5,23 @@ import Spinner from "../with-spinner/with-spinner.component";
 
 import SubmitButton from "../submit-button/submit-button.component";
 import {
-  selectDepartmentsIsLoading,
-  selectDepartmentToUpdate,
-  selectDepartmentUpdateErrorMessage,
-  selectDepartmentUpdateSuccessMessage,
-  selectDepartmentByIdErrorMessage,
-} from "../../redux/department/department.selectors";
+  selectGroupsIsLoading,
+  selectGroupToUpdate,
+  selectGroupUpdateErrorMessage,
+  selectGroupUpdateSuccessMessage,
+  selectGroupByIdErrorMessage,
+} from "../../redux/group/group.selectors";
 import {
-  fetchDepartmentByDepartmentIdUpdateStart,
-  updateDepartment,
-} from "../../redux/department/department.actions";
+  fetchGroupByGroupIdUpdateStart,
+  updateGroup,
+} from "../../redux/group/group.actions";
 
-class DepartmentUpdate extends React.Component {
+class GroupUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      departmentDetails: {
-        departmentName: "",
+      groupDetails: {
+        groupName: "",
         description: "",
       },
     };
@@ -29,9 +29,9 @@ class DepartmentUpdate extends React.Component {
 
   handelSubmit = (event) => {
     event.preventDefault();
-    const { updateDepartmentDispatch, history } = this.props;
-    const { departmentDetails } = this.state;
-    updateDepartmentDispatch(departmentDetails);
+    const { updateGroupDispatch, history } = this.props;
+    const { groupDetails } = this.state;
+    updateGroupDispatch(groupDetails);
   };
 
   changeHandler = (event) => {
@@ -40,21 +40,22 @@ class DepartmentUpdate extends React.Component {
     console.log("name", name);
     console.log("value", value);
 
-    let item = { ...this.state.departmentDetails };
+    let item = { ...this.state.groupDetails };
     item[name] = value;
 
     console.log("item", item);
 
-    this.setState({ departmentDetails: item });
+    this.setState({ groupDetails: item });
   };
 
   componentDidMount() {
-    console.log(`${this.props.match.params.departmentId}`);
+    console.log(`${this.props.match.params.groupId}`);
     alert("componentDidMount");
 
-    const { fetchDepartmentByIdDispatch } = this.props;
-    const subjcetId = this.props.match.params.departmentId;
-    fetchDepartmentByIdDispatch(subjcetId);
+    const { fetchGroupByIdDispatch, groupToUpdate } = this.props;
+    const subjcetId = this.props.match.params.groupId;
+    fetchGroupByIdDispatch(subjcetId);
+    console.log("groupToUpdate", groupToUpdate);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,43 +65,42 @@ class DepartmentUpdate extends React.Component {
   }
 
   initialize(nextProps) {
-    const departmentToUpdateData = nextProps.departmentToUpdate;
-    console.log("nextProps", nextProps);
-    console.log("departmentToUpdateData", departmentToUpdateData);
+    const groupToUpdateData = nextProps.groupToUpdate;
+    console.log("groupToUpdateData", groupToUpdateData);
 
     alert("stop");
-    this.setState({ departmentDetails: departmentToUpdateData });
+    this.setState({ groupDetails: groupToUpdateData });
   }
 
   reloadThePage(history) {
-    history.push("/department");
+    history.push("/group");
   }
 
   onErrorRedirect(history) {
-    history.push("/department");
+    history.push("/group");
   }
 
   render() {
     let isError = false;
     let isSuccess = false;
-    const { departmentDetails } = this.state;
+    const { groupDetails } = this.state;
     const {
-      departmentUpdateError,
+      groupUpdateError,
       history,
       isLoading,
-      departmentUpdateSuccess,
+      groupUpdateSuccess,
     } = this.props;
-    if (departmentUpdateError) {
+    if (groupUpdateError) {
       isError = true;
     }
 
-    if (departmentUpdateSuccess) {
+    if (groupUpdateSuccess) {
       isSuccess = true;
     }
 
-    const UpdateDepartmentSuccessFlashMessage = (
+    const UpdateGroupSuccessFlashMessage = (
       <div class="alert alert-success" role="alert">
-        Department is updated SuccessFully!
+        Group is updated SuccessFully!
         <button
           type="button"
           class="close"
@@ -111,9 +111,9 @@ class DepartmentUpdate extends React.Component {
       </div>
     );
 
-    const UpdateDepartmentFailedFlashMessage = (
+    const UpdateGroupFailedFlashMessage = (
       <div class="alert alert-danger" role="alert">
-        Failed To update department, please contact{" "}
+        Failed To update group, please contact{" "}
         <a href="#" class="alert-link">
           SUPPORT@CHILD-CONNECT.com
         </a>
@@ -131,10 +131,10 @@ class DepartmentUpdate extends React.Component {
       <div>
         {isError || isSuccess ? (
           //this.onErrorRedirect(history)
-          departmentUpdateError ? (
-            UpdateDepartmentFailedFlashMessage
-          ) : null || departmentUpdateSuccess ? (
-            UpdateDepartmentSuccessFlashMessage
+          groupUpdateError ? (
+            UpdateGroupFailedFlashMessage
+          ) : null || groupUpdateSuccess ? (
+            UpdateGroupSuccessFlashMessage
           ) : null
         ) : isLoading ? (
           <Spinner />
@@ -143,7 +143,7 @@ class DepartmentUpdate extends React.Component {
             <div className="row clearfix">
               <div className="card">
                 <div className="card-header">
-                  <h3 className="card-title">Update Department Details</h3>
+                  <h3 className="card-title">Update Group Details</h3>
                   <div className="card-options ">
                     <a
                       href="#"
@@ -170,13 +170,13 @@ class DepartmentUpdate extends React.Component {
 
                       <div className="col-md-4 col-sm-12">
                         <div className="form-group">
-                          <label>Department Name</label>
+                          <label>Group Name</label>
                           <input
                             type="text"
-                            name="departmentName"
+                            name="groupName"
                             className="form-control"
                             onChange={this.changeHandler}
-                            value={departmentDetails.departmentName}
+                            value={groupDetails.groupName}
                           ></input>
                         </div>
                       </div>
@@ -191,7 +191,7 @@ class DepartmentUpdate extends React.Component {
                           <textarea
                             name="description"
                             onChange={this.changeHandler}
-                            value={departmentDetails.description}
+                            value={groupDetails.description}
                             rows="4"
                             className="form-control no-resize"
                             placeholder="Please type what you want..."
@@ -199,7 +199,7 @@ class DepartmentUpdate extends React.Component {
                         </div>
                       </div>
 
-                      <SubmitButton buttonName={`Update Department`} />
+                      <SubmitButton buttonName={`Update Group`} />
                     </div>
                   </form>
                 </div>
@@ -213,18 +213,17 @@ class DepartmentUpdate extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  isLoading: selectDepartmentsIsLoading,
-  departmentToUpdate: selectDepartmentToUpdate,
-  departmentUpdateError: selectDepartmentUpdateErrorMessage,
-  departmentUpdateSuccess: selectDepartmentUpdateSuccessMessage,
-  selectDepartmentByIdError: selectDepartmentByIdErrorMessage,
+  isLoading: selectGroupsIsLoading,
+  groupToUpdate: selectGroupToUpdate,
+  groupUpdateError: selectGroupUpdateErrorMessage,
+  groupUpdateSuccess: selectGroupUpdateSuccessMessage,
+  selectGroupByIdError: selectGroupByIdErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchDepartmentByIdDispatch: (departmentId) =>
-    dispatch(fetchDepartmentByDepartmentIdUpdateStart(departmentId)),
-  updateDepartmentDispatch: (departmentToUpdate) =>
-    dispatch(updateDepartment(departmentToUpdate)),
+  fetchGroupByIdDispatch: (groupId) =>
+    dispatch(fetchGroupByGroupIdUpdateStart(groupId)),
+  updateGroupDispatch: (groupToUpdate) => dispatch(updateGroup(groupToUpdate)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepartmentUpdate);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupUpdate);

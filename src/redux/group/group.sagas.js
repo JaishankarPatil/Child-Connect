@@ -22,8 +22,11 @@ const history = createBrowserHistory();
 function* fetchGroupsStartAsync(api, action) {
   try {
     const response = yield call(api.fetchAllGroups);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
       yield put(fetchGroupSuccess(response.data));
+    } else {
+      const errorMessage = "Failed to fetch group List";
+      yield put(fetchGroupFailure(errorMessage));
     }
   } catch (error) {
     yield put(fetchGroupFailure(error.message));

@@ -22,8 +22,11 @@ const history = createBrowserHistory();
 function* fetchStudentsStartAsync(api, action) {
   try {
     const response = yield call(api.fetchAllStudents);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
       yield put(fetchStudentSuccess(response.data));
+    } else {
+      const errorMessage = "Students are not availabel";
+      yield put(fetchStudentFailure(errorMessage));
     }
   } catch (error) {
     yield put(fetchStudentFailure(error.message));
@@ -38,8 +41,13 @@ function* fetchStudentByStudentIdStartAsync(api, action) {
     console.log("response", response);
     console.log("response", response.data);
     console.log("response", response.status);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+
+    alert("stop to check fetchStudentByStudentIdStartAsync");
+    if (response.ok) {
       yield put(fetchStudentByStudentIdUpdateSuccess(response.data));
+    } else {
+      const errorMessage = "failed to fetch student by Id";
+      yield put(fetchStudentByStudentIdUpdateFailure(errorMessage));
     }
   } catch (error) {
     yield put(fetchStudentByStudentIdUpdateFailure(error.message));
@@ -47,10 +55,16 @@ function* fetchStudentByStudentIdStartAsync(api, action) {
 }
 
 function* createStudentAsync(api, action) {
+  console.log("action.payload", action.payload);
+  alert("stop saga");
   try {
     const response = yield call(api.createStudent, action.payload);
-    const successMessage = "test";
+
+    console.log("response", response);
+
+    alert("stopppppp ");
     if (response.ok) {
+      const successMessage = "new student Created";
       yield put(createStudentSuccess(successMessage));
     } else {
       const errorMessage = "Failed To Create Student";

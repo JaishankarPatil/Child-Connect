@@ -22,8 +22,13 @@ const history = createBrowserHistory();
 function* fetchStandardsStartAsync(api, action) {
   try {
     const response = yield call(api.fetchAllStandards);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
+      console.log("response.data", response.data);
+      alert("stop fetchStandardsStartAsync");
       yield put(fetchStandardSuccess(response.data));
+    } else {
+      const errorMessage = "failed to fetch Standards";
+      yield put(fetchStandardFailure(errorMessage));
     }
   } catch (error) {
     yield put(fetchStandardFailure(error.message));
@@ -38,8 +43,11 @@ function* fetchStandardByStandardIdStartAsync(api, action) {
     console.log("response", response);
     console.log("response", response.data);
     console.log("response", response.status);
-    if (response.status === RESPONSE_STATUS_SUCCESS) {
+    if (response.ok) {
       yield put(fetchStandardByStandardIdUpdateSuccess(response.data));
+    } else {
+      const errorMessage = "Failed to fetch standard by Id";
+      yield put(fetchStandardByStandardIdUpdateFailure(errorMessage));
     }
   } catch (error) {
     yield put(fetchStandardByStandardIdUpdateFailure(error.message));
@@ -49,8 +57,8 @@ function* fetchStandardByStandardIdStartAsync(api, action) {
 function* createStandardAsync(api, action) {
   try {
     const response = yield call(api.createStandard, action.payload);
-    const successMessage = "test";
     if (response.ok) {
+      const successMessage = "Standard created successfully";
       yield put(createStandardSuccess(successMessage));
     } else {
       const errorMessage = "Failed To Create Standard";
