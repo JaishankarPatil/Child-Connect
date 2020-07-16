@@ -23,7 +23,8 @@ import CreateHomeWork from "./components/pages/home-work/create-home-work/create
 import ViewHomeWork from "./components/pages/home-work/view-home-work/view-home-work.component";
 import StandardUpdate from "./components/standard/standard-update.component";
 import StudentUpdate from "./components/student/student-update.component";
-
+import HomeworkContainer from "./components/homework/homework-container.component";
+import StaffUpdate from "./components/staff/staff-update.component";
 import Subject from "./components/pages/subject/subject.component";
 import "./assets/js/core.js";
 
@@ -35,7 +36,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/staff" component={Staff} />
-          <Route path="/staff/:id" component={EditStaff} />
+          <Route path="/staff/:staffId" component={StaffUpdate} />
           <Route exact path="/student" component={Student} />
           <Route exact path="/student/:studentId" component={StudentUpdate} />
           <Route exact path="/department" component={Department} />
@@ -64,6 +65,11 @@ class App extends Component {
           />
           <Route exact path="/createhomework" component={CreateHomeWork} />
           <Route exact path="/viewhomework" component={ViewHomeWork} />
+          <Route
+            exact
+            path="/homework/:subject"
+            component={HomeworkContainer}
+          />
         </Switch>
       </div>
     );

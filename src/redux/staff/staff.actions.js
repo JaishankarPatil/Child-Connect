@@ -49,9 +49,9 @@ export const fetchStaffByStaffIdUpdateStart = (staffId) => ({
   payload: staffId,
 });
 
-export const fetchStaffByStaffIdUpdateSuccess = (staff) => ({
+export const fetchStaffByStaffIdUpdateSuccess = (staffToUpdate) => ({
   type: StaffActionTypes.FETCH_STAFF_BYSTAFFID_SUCCESS,
-  payload: staff,
+  payload: staffToUpdate,
 });
 
 export const fetchStaffByStaffIdUpdateFailure = (errorMessage) => ({

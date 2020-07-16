@@ -27,7 +27,7 @@ class StudentUpdate extends Component {
         firstName: "",
         midName: "",
         lastName: "",
-        dateOfBirth: "",
+        dateOfBirth: new Date(),
         gender: "",
         adharNumber: "",
         mobileNumber: "",
@@ -143,19 +143,6 @@ class StudentUpdate extends Component {
   render() {
     const { studentDetails } = this.state;
 
-    console.log(typeof studentDetails.admisionDate);
-
-    var d = Date.parse(studentDetails.admisionDate);
-
-    console.log("d", d);
-
-    var invalidDate = new Date(d);
-    console.log("invalidDate", invalidDate);
-
-    const NewDate = moment(studentDetails.admisionDate);
-
-    console.log("NewDate", NewDate.toDate());
-
     alert("stop to check date");
 
     console.log("studentDetails", studentDetails);
@@ -220,20 +207,6 @@ class StudentUpdate extends Component {
                         onChange={this.changeHandler}
                         value={studentDetails.lastName}
                       ></input>
-                    </div>
-                  </div>
-
-                  <div className="col-md-4 col-sm-12">
-                    <div className="form-group">
-                      <label>Date Of Admission</label>
-                      <DatePicker
-                        className="form-control"
-                        name="admisionDate"
-                        value={invalidDate}
-                        selected={invalidDate}
-                        onChange={this.dateOfAdmissionUpadte}
-                        dateFormat="dd/MM/yyyy"
-                      />
                     </div>
                   </div>
 

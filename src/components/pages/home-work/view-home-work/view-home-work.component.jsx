@@ -3,14 +3,25 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { Link } from "react-router-dom";
 
+import {
+  selectHomeworks,
+  selectHomeworkBySubject,
+} from "../../../../redux/homework/homework.selectors";
+
 import Footer from "../../../footer/footer.component";
 import SideBar from "../../../side-bar/side-bar.component";
 import Navigation from "../../../navigation/navigation.component";
-import ComposeHomeWork from "../../../compose-home-work/compose-home-work.component";
+import { fetchHomeworkStarts } from "../../../../redux/homework/homework.actions";
+import HomeworkContainer from "../../../homework/homework-container.component";
 
 class ViewHomeWork extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    const { fetchHomeworkStartsDispatch } = this.props;
+    fetchHomeworkStartsDispatch();
   }
 
   render() {
@@ -19,6 +30,10 @@ class ViewHomeWork extends Component {
       gridView: "Grid View",
       add: "Add",
     };
+
+    const { homeworkBySubject, history } = this.props;
+
+    console.log("homeworkBySubject", homeworkBySubject);
 
     return (
       <div className="font-muli theme-cyan gradient">
@@ -57,38 +72,29 @@ class ViewHomeWork extends Component {
                         <div className="card-header">
                           <ul className="nav nav-tabs card-header-tabs">
                             <li className="nav-item">
-                              <a className="nav-link active" href="#">
-                                <Link to="/createhomework">Maths</Link>
+                              <a className="nav-link" href="#">
+                                <Link to="/homework/maths">Maths</Link>
                               </a>
                             </li>
                             <li className="nav-item">
                               <a className="nav-link" href="#">
-                                <Link to="/createhomework">Social</Link>
+                                <Link to="/homework/science">Science</Link>
                               </a>
                             </li>
                             <li className="nav-item">
                               <a className="nav-link " href="#">
-                                <Link to="/createhomework">Scince</Link>
+                                <Link to="/homework/social">Social</Link>
                               </a>
                             </li>
                             <li className="nav-item">
                               <a className="nav-link " href="#">
-                                <Link to="/createhomework">English</Link>
+                                <Link to="/homework/english">English</Link>
                               </a>
                             </li>
                           </ul>
                         </div>
                         <div className="card-body">
-                          <h5 className="card-title">
-                            Special title treatment
-                          </h5>
-                          <p className="card-text">
-                            With supporting text below as a natural lead-in to
-                            additional content.
-                          </p>
-                          <a href="#" className="btn btn-primary">
-                            Go somewhere
-                          </a>
+                          <h5 className="card-title">No Home work found</h5>
                         </div>
                       </div>
                     </div>
@@ -105,4 +111,8 @@ class ViewHomeWork extends Component {
   }
 }
 
-export default ViewHomeWork;
+const mapDispatchToProps = (dispatch) => ({
+  fetchHomeworkStartsDispatch: () => dispatch(fetchHomeworkStarts()),
+});
+
+export default connect(null, mapDispatchToProps)(ViewHomeWork);

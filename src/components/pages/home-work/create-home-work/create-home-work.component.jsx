@@ -11,14 +11,23 @@ import ComposeHomeWork from "../../../compose-home-work/compose-home-work.compon
 class CreateHomeWork extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      homeworkDetails: {
+        subject: "",
+        group: "",
+        title: "",
+        image: "",
+        content: "",
+      },
+    };
   }
 
   render() {
     const navigationItems = {
-      listView: "List View",
-      gridView: "Grid View",
-      add: "Add",
+      listView: "Create Homework",
     };
+
+    const { homeworkDetails } = this.props;
 
     return (
       <div className="font-muli theme-cyan gradient">
@@ -34,7 +43,7 @@ class CreateHomeWork extends Component {
                 <div className="tab-content">
                   <div className="card">
                     <div className="card-header">
-                      <h3 className="card-title">DETAILS</h3>
+                      <h3 className="card-title">HOMEWORK DETAILS</h3>
                       <div className="card-options ">
                         <a
                           href="#"
@@ -64,8 +73,10 @@ class CreateHomeWork extends Component {
                               className="form-control show-tick"
                             >
                               <option value="">-- Subject --</option>
-                              <option value="Male">Male</option>
-                              <option value="Female">Female</option>
+                              <option value="Maths">Maths</option>
+                              <option value="Science">Science</option>
+                              <option value="Social">Social</option>
+                              <option value="English">English</option>
                             </select>
                           </div>
                           <div className="col-md-6 col-sm-12"></div>
@@ -79,8 +90,12 @@ class CreateHomeWork extends Component {
                               className="form-control show-tick"
                             >
                               <option value="">-- Group --</option>
-                              <option value="Male">Male</option>
-                              <option value="Female">Female</option>
+                              <option value="Male">1st - A</option>
+                              <option value="Male">1st - B</option>
+                              <option value="Male">2nd - B</option>
+                              <option value="Male">4th - A</option>
+                              <option value="Male">5th - B</option>
+                              <option value="Female">7th - A</option>
                             </select>
                           </div>
                           <div className="col-md-6 col-sm-12"></div>

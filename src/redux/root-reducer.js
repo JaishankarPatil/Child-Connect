@@ -10,6 +10,7 @@ import departmentReducer from "./department/department.reducer";
 import designationReducer from "./designation/designation.reducer";
 import standardReducer from "./standard/standard.reducer";
 import subjectReducer from "./subject/subject.reducer";
+import homeworkReducer from "./homework/homework.reducer";
 
 const persistConfig = {
   key: "root",
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   designation: designationReducer,
   standard: standardReducer,
   subject: subjectReducer,
+  homework: homeworkReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

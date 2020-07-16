@@ -21,7 +21,6 @@ const DesignationListView = ({
   fetchdesignationsError,
 }) => {
   console.log("history", history);
-  alert("stop designation");
 
   const FetchDepartmentsFailedFlashMessage = (
     <div class="alert alert-danger" role="alert">

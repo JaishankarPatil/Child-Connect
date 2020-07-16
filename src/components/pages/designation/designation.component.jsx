@@ -71,7 +71,6 @@ class Designation extends Component {
       designationDeleteError ||
       designationCreateError
     ) {
-      alert("fetchAllDesignationsError");
       isError = true;
     }
 
@@ -116,7 +115,7 @@ class Designation extends Component {
 
     const CreatDesignationFailedFlashMessage = (
       <div class="alert alert-danger" role="alert">
-        Creation of departent failed, please contact{" "}
+        Creation of designation failed, please contact{" "}
         <a href="#" class="alert-link">
           SUPPORT@childconnect.com
         </a>
@@ -132,7 +131,7 @@ class Designation extends Component {
 
     const UpdateDesignationFailedFlashMessage = (
       <div class="alert alert-danger" role="alert">
-        Update of departent failed, please contact{" "}
+        Update of designation failed, please contact{" "}
         <a href="#" class="alert-link">
           SUPPORT@childconnect.com
         </a>
@@ -184,7 +183,7 @@ class Designation extends Component {
           <SideBar />
           <div className="page">
             <Navigation
-              pageTitle={"DEPARTMENT"}
+              pageTitle={"DESIGNATION"}
               navigationItems={navigationItems}
             />
             {isSuccess || isError ? (

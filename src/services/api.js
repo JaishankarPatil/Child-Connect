@@ -31,7 +31,7 @@ const create = (
     api.post(baseURL + "/staff/v1/createStaff", newStaff);
   const updateStaff = (updatedStaff) =>
     api.put(baseURL + "/staff/v1/updateStaff", updatedStaff);
-  const getStaffById = (staffId) =>
+  const fetchStaffByStaffId = (staffId) =>
     api.get(proxyurl + baseURL + `/staff/v1/queryStaffByStaffId/${staffId}`);
   const deleteStaff = (staffId) =>
     api.delete(proxyurl + baseURL + `/staff/v1/deleteStaffById/${staffId}`);
@@ -144,7 +144,7 @@ const create = (
     fetchAllStaffs,
     createStaff,
     updateStaff,
-    getStaffById,
+    fetchStaffByStaffId,
     deleteStaff,
 
     //students

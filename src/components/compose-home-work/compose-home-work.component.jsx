@@ -29,8 +29,7 @@ class ComposeHomeWork extends React.Component {
             ["fontname", ["fontname"]],
             ["color", ["color"]],
             ["para", ["ul", "ol", "paragraph"]],
-            ["table", ["table"]],
-            ["insert", ["link", "picture", "video"]],
+            ["insert", ["link", "picture", "video", "file"]],
             ["view", ["fullscreen", "codeview"]],
           ],
         }}

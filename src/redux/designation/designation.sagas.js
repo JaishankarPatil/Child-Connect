@@ -24,7 +24,6 @@ function* fetchDesignationsStartAsync(api, action) {
     const response = yield call(api.fetchAllDesignations);
     if (response.ok) {
       console.log("response.data", response.data);
-      alert("stop fetchDesignationsStartAsync");
       yield put(fetchDesignationSuccess(response.data));
     } else {
       const errorMessage = "Designation list is empty";
@@ -73,7 +72,6 @@ function* updateDesignationAsync(api, action) {
   console.log("action.payload", action.payload);
   console.log("history", history);
 
-  alert("updateDesignationAsync");
   try {
     const response = yield call(api.updateDesignation, action.payload);
     if (response.ok) {
@@ -90,13 +88,11 @@ function* updateDesignationAsync(api, action) {
 
 function* deleteDesignationAsync(api, action) {
   console.log("action.payload", action.payload);
-  alert("delete async");
   try {
     const response = yield call(api.deleteDesignation, action.payload);
     console.log("response", response);
     console.log("response", response.status);
     console.log("response", response.ok);
-    alert("delete async sec");
     const successMessage = "deleted";
     if (response.ok) {
       yield put(deleteDesignationByDesignationIdSuccess(successMessage));

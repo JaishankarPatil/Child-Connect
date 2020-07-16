@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { createStructuredSelector } from "reselect";
+import Moment from "moment";
 import {
   selectStaffs,
   selectStaffsIsLoading,
@@ -106,6 +107,7 @@ const StaffListView = ({
                     <th>{employeeNumber}</th>
                     <th>{description}</th>
                     <th>{relievedDate}</th>
+                    <th>ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -120,7 +122,7 @@ const StaffListView = ({
                               title=""
                               data-original-title="Avatar Name"
                             >
-                              <span>{staff.firstName.slice(0, 2)}</span>
+                              <span>{staff.staffId}</span>
                             </div>
                           </td>
                           <td>
@@ -133,7 +135,9 @@ const StaffListView = ({
                             <span>{staff.lastName}</span>
                           </td>
                           <td>
-                            <span>{staff.dateOfBirth}</span>
+                            <span>
+                              {Moment(staff.dateOfBirth).format("DD/MM/yyyy")}
+                            </span>
                           </td>
                           <td>
                             <span>{staff.gender}</span>
@@ -178,7 +182,9 @@ const StaffListView = ({
                             <span>{staff.pincode}</span>
                           </td>
                           <td>
-                            <span>{staff.dateOfJoining}</span>
+                            <span>
+                              {Moment(staff.dateOfJoining).format("DD/MM/yyyy")}
+                            </span>
                           </td>
                           <td>
                             <span className="tag tag-success">
@@ -201,7 +207,9 @@ const StaffListView = ({
                             <span>{staff.description}</span>
                           </td>
                           <td>
-                            <span>{staff.relievedDate}</span>
+                            <span>
+                              {Moment(staff.relievedDate).format("DD/MM/yyyy")}
+                            </span>
                           </td>
 
                           <td>
