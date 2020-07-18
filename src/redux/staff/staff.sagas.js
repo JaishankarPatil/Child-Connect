@@ -53,7 +53,6 @@ function* fetchStaffByStaffIdStartAsync(api, action) {
 
 function* createStaffAsync(api, action) {
   console.log("action.payload", action.payload);
-  alert("createStaffAsync");
   try {
     const response = yield call(api.createStaff, action.payload);
     const successMessage = "test";
@@ -72,7 +71,6 @@ function* updateStaffAsync(api, action) {
   console.log("action.payload", action.payload);
   console.log("history", history);
 
-  alert("updateStaffAsync");
   try {
     const response = yield call(api.updateStaff, action.payload);
     if (response.ok) {
@@ -89,13 +87,11 @@ function* updateStaffAsync(api, action) {
 
 function* deleteStaffAsync(api, action) {
   console.log("action.payload", action.payload);
-  alert("delete async");
   try {
     const response = yield call(api.deleteStaff, action.payload);
     console.log("response", response);
     console.log("response", response.status);
     console.log("response", response.ok);
-    alert("delete async sec");
     const successMessage = "deleted";
     if (response.ok) {
       yield put(deleteStaffByStaffIdSuccess(successMessage));

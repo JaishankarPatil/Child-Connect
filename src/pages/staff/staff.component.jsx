@@ -1,39 +1,37 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import { Link } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
-import {
-  selectHomeworks,
-  selectHomeworkBySubject,
-} from "../../../../redux/homework/homework.selectors";
+import "../../assets/js/core.js";
 
-import Footer from "../../../footer/footer.component";
-import SideBar from "../../../side-bar/side-bar.component";
-import Navigation from "../../../navigation/navigation.component";
-import { fetchHomeworkStarts } from "../../../../redux/homework/homework.actions";
-import HomeworkContainer from "../../../homework/homework-container.component";
+import Footer from "../../components/footer/footer.component";
+import SideBar from "../../components/side-bar/side-bar.component";
+import StaffListView from "../../components/staff/staff-list-view.component";
+import CreateStaff from "../../components/staff/staff-create.component";
 
-class ViewHomeWork extends Component {
+import Navigation from "../../components/navigation/navigation.component";
+
+import { fetchStaffsStart, createStaff } from "../../redux/staff/staff.actions";
+
+import "react-datepicker/dist/react-datepicker.css";
+
+class Staff extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
-    const { fetchHomeworkStartsDispatch } = this.props;
-    fetchHomeworkStartsDispatch();
-  }
-
   render() {
+    const { match } = this.props;
+
     const navigationItems = {
       listView: "List View",
       gridView: "Grid View",
       add: "Add",
     };
 
-    const { homeworkBySubject, history } = this.props;
-
-    console.log("homeworkBySubject", homeworkBySubject);
+    console.log("match", match);
+    console.log("match.url", match.url);
+    console.log("match.path", match.path);
 
     return (
       <div className="font-muli theme-cyan gradient">
@@ -73,7 +71,7 @@ class ViewHomeWork extends Component {
                           <ul className="nav nav-tabs card-header-tabs">
                             <li className="nav-item">
                               <a className="nav-link" href="#">
-                                <Link to="/staff/maths">Maths</Link>
+                                <Link to="/staff/listView">Maths</Link>
                               </a>
                             </li>
                             <li className="nav-item">
@@ -111,8 +109,4 @@ class ViewHomeWork extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchHomeworkStartsDispatch: () => dispatch(fetchHomeworkStarts()),
-});
-
-export default connect(null, mapDispatchToProps)(ViewHomeWork);
+export default Staff;

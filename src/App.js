@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import "./App.css";
-
+import "../src/assets/js/core";
 import { Switch, Route } from "react-router-dom";
 
 import Home from "./components/home/home.component";
 import Signin from "./components/pages/signin/signin.component";
-import Staff from "./components/pages/staff/staff.component";
+import Staff from "./pages/staff/staff.component";
+import StaffListView from "./components/staff/staff-list-view.component";
+import CreateStaff from "./components/staff/staff-create.component";
+import StaffUpdate from "./components/staff/staff-update.component";
+
 import Student from "./components/pages/student/student.component";
 import Department from "./components/pages/department/department.component";
 
@@ -24,7 +28,6 @@ import ViewHomeWork from "./components/pages/home-work/view-home-work/view-home-
 import StandardUpdate from "./components/standard/standard-update.component";
 import StudentUpdate from "./components/student/student-update.component";
 import HomeworkContainer from "./components/homework/homework-container.component";
-import StaffUpdate from "./components/staff/staff-update.component";
 import Subject from "./components/pages/subject/subject.component";
 import "./assets/js/core.js";
 
@@ -36,7 +39,13 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/staff" component={Staff} />
-          <Route path="/staff/:staffId" component={StaffUpdate} />
+          <Route exact path="/staff/listView" component={StaffListView} />
+          <Route exact path="/staff/createStaff" component={CreateStaff} />
+          <Route
+            exact
+            path="/staff/updateStaff/:staffId"
+            component={StaffUpdate}
+          />
           <Route exact path="/student" component={Student} />
           <Route exact path="/student/:studentId" component={StudentUpdate} />
           <Route exact path="/department" component={Department} />

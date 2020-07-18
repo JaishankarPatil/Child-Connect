@@ -25,7 +25,7 @@ export const createStaffSuccess = (successMessage) => ({
 });
 
 export const createStaffFailure = (errorMessage) => ({
-  type: StaffActionTypes.DELETE_STAFF_FAILURE,
+  type: StaffActionTypes.CREATE_STAFF_FAILURE,
   payload: errorMessage,
 });
 

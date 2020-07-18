@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import "./side-bar.styles.scss";
 
 import "../../assets/js/core.js";
 
@@ -109,11 +110,6 @@ class SideBar extends Component {
           <ul className="nav nav-tabs">
             <li className="nav-item">
               <a className="nav-link active" data-toggle="tab" href="#menu-uni">
-                University
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" data-toggle="tab" href="#menu-admin">
                 Admin
               </a>
             </li>
@@ -127,144 +123,17 @@ class SideBar extends Component {
               <nav className="sidebar-nav">
                 <ul className="metismenu">
                   <li>
-                    <a href="index.html">
-                      <i className="fa fa-dashboard"></i>
-                      <span>Dashboard</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="professors.html">
-                      <i className="fa fa-black-tie"></i>
-                      <span>Professors</span>
-                    </a>
-                  </li>
-                  <li className="active">
                     <i className="fa fa-user-circle-o"></i>
-                    <Link to="/staff">
+                    <Link to="/staff/listView">
                       <span>Staff</span>
                     </Link>
                   </li>
                   <li>
-                    <a href="students.html">
+                    <a href="">
                       <i className="fa fa-users"></i>
-                      <Link to="/Student">
+                      <Link to="/Student/">
                         <span>Students</span>
                       </Link>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="departments.html">
-                      <i className="fa fa-users"></i>
-                      <span>Departments</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="courses.html">
-                      <i className="fa fa-graduation-cap"></i>
-                      <span>Courses</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="library.html">
-                      <i className="fa fa-book"></i>
-                      <span>Library</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="holiday.html">
-                      <i className="fa fa-bullhorn"></i>
-                      <span>Holiday</span>
-                    </a>
-                  </li>
-                  <li className="g_heading">Extra</li>
-                  <li>
-                    <a href="events.html">
-                      <i className="fa fa-calendar"></i>
-                      <span>Calender</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="app-chat.html">
-                      <i className="fa fa-comments-o"></i>
-                      <span>Chat App</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="app-contact.html">
-                      <i className="fa fa-address-book"></i>
-                      <span>Contact</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="app-filemanager.html">
-                      <i className="fa fa-folder"></i>
-                      <span>FileManager</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="our-centres.html">
-                      <i className="fa fa-map"></i>
-                      <span>OurCentres</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="gallery.html">
-                      <i className="fa fa-camera-retro"></i>
-                      <span>Gallery</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div className="tab-pane fade" id="menu-admin" role="tabpanel">
-              <nav className="sidebar-nav">
-                <ul className="metismenu">
-                  <li>
-                    <a href="payments.html">
-                      <i className="fa fa-credit-card"></i>
-                      <span>Payments</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="noticeboard.html">
-                      <i className="fa fa-dashboard"></i>
-                      <span>Noticeboard</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="taskboard.html">
-                      <i className="fa fa-list-ul"></i>
-                      <span>Taskboard</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="hostel.html">
-                      <i className="fa fa-bed"></i>
-                      <span>Hostel</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="transport.html">
-                      <i className="fa fa-truck"></i>
-                      <span>Transport</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="attendance.html">
-                      <i className="fa fa-calendar-check-o"></i>
-                      <span>Attendance</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="leave.html">
-                      <i className="fa fa-flag"></i>
-                      <span>Leave</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="setting.html">
-                      <i className="fa fa-gear"></i>
-                      <span>Settings</span>
                     </a>
                   </li>
                 </ul>
