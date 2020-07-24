@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { createStructuredSelector } from "reselect";
-import { selectDepartments } from "../../redux/department/department.selectors";
-import { deleteDepartmentByDepartmentId } from "../../redux/department/department.actions";
+import {
+  deleteDepartmentByDepartmentId,
+  fetchDepartmentsStart,
+} from "../../redux/department/department.actions";
+
+import {
+  selectDepartments,
+  selectDepartmentsIsLoading,
+  selectDepartmentsErrorMessage,
+  selectdeleteDepartmentSuccessMessage,
+  selectdeleteDepartmentErrorMessage,
+} from "../../redux/department/department.selectors";
 
 import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
@@ -15,6 +25,10 @@ const reloadThePage = (history) => {
 const DepartmentListView = ({
   departmentList,
   deleteDepartmentByDepartmentIdDispatch,
+  isLoading,
+  fetchDepartmentsError,
+  departmentDeleteError,
+  departmentDeleteSuccess,
 }) => {
   console.log("departmentList", departmentList);
   console.log("history", history);
@@ -130,9 +144,14 @@ const DepartmentListView = ({
 
 const mapStateToProps = createStructuredSelector({
   departmentList: selectDepartments,
+  isLoading: selectDepartmentsIsLoading,
+  fetchDepartmentsError: selectDepartmentsErrorMessage,
+  departmentDeleteError: selectdeleteDepartmentErrorMessage,
+  departmentDeleteSuccess: selectdeleteDepartmentSuccessMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  fetchDepartmentListDispatch: () => dispatch(fetchDepartmentsStart()),
   deleteDepartmentByDepartmentIdDispatch: (subjectId) =>
     dispatch(deleteDepartmentByDepartmentId(subjectId)),
 });

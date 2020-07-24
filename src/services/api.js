@@ -17,7 +17,6 @@ const create = (
     baseURL,
     // here are some default headers
     headers: {
-      "Content-Type": "application/json",
       Authorization:
         "Bearer " +
         "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE1OTM2NzgyOTMsImV4cCI6MTYwOTIzMDI5M30.66Gi4n58gWurSPE16UkpiDXGRsbB7PxtPya5zYySRGVC1ND9-GIX-NdXirRTCXpWedUjPmSY__AHFRAGhJZ4Gw",
@@ -139,6 +138,16 @@ const create = (
       proxyurl + baseURL + `/subject/v1/deleteSubjectById/${subjectId}`
     );
 
+  //File upload
+
+  const uploadFileTest = (formData) =>
+    api.post(proxyurl + baseURL + `/file/uploadFile`, formData);
+
+  //Homework
+
+  const createHomework = (newHomework) =>
+    api.post(baseURL + "/homework/v1/createHomeWork", newHomework);
+
   return {
     // a list of the API functions from step 2
     fetchAllStaffs,
@@ -188,6 +197,14 @@ const create = (
     fetchSubjectBySubjectId,
     deleteSubject,
     updateSubject,
+
+    //File Upload
+
+    uploadFileTest,
+
+    //Homework
+
+    createHomework,
   };
 };
 

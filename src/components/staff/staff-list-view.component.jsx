@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import SideBar from "../side-bar/side-bar.component";
 import { createStructuredSelector } from "reselect";
 import Moment from "moment";
+import "../../assets/js/core";
 
 import "./staff.styles.scss";
 import {
@@ -117,13 +118,13 @@ const StaffListView = ({
                 </div>
                 <ul className="nav nav-tabs page-header-tab">
                   <li className="nav-item">
-                    <Link className="nav-link" to="/staff/listView">
+                    <Link className="nav-link" to="/staffListView">
                       List View
                     </Link>
                   </li>
 
                   <li className="nav-item">
-                    <Link className="nav-link" to="/staff/createStaff">
+                    <Link className="nav-link" to="/createStaff">
                       Add Staff
                     </Link>
                   </li>

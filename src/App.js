@@ -18,7 +18,6 @@ import Group from "./components/pages/group/group.component";
 import AddGroupMember from "./components/add-group-member/add-group-member.component";
 import GroupMember from "./components/group-member/group-member.component";
 import Standard from "./components/pages/standard/standard.component";
-import EditStaff from "./components/edit-staff/edit-staff.component";
 import SubjectUpdate from "./components/subject/subject-update.component";
 import DepartmentUpdate from "./components/department/department-update.component";
 import DesignationUpdate from "./components/designation/deignation-update.component";
@@ -30,6 +29,7 @@ import StudentUpdate from "./components/student/student-update.component";
 import HomeworkContainer from "./components/homework/homework-container.component";
 import Subject from "./components/pages/subject/subject.component";
 import "./assets/js/core.js";
+import "bootstrap";
 
 class App extends Component {
   render() {
@@ -39,16 +39,13 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/staff" component={Staff} />
-          <Route exact path="/staff/listView" component={StaffListView} />
-          <Route exact path="/staff/createStaff" component={CreateStaff} />
-          <Route
-            exact
-            path="/staff/updateStaff/:staffId"
-            component={StaffUpdate}
-          />
+          <Route exact path="/staffListView" component={StaffListView} />
+          <Route exact path="/createStaff" component={CreateStaff} />
+          <Route exact path="/updateStaff/:staffId" component={StaffUpdate} />
+          <Route exact path="/department" component={Department} />
+
           <Route exact path="/student" component={Student} />
           <Route exact path="/student/:studentId" component={StudentUpdate} />
-          <Route exact path="/department" component={Department} />
           <Route
             exact
             path="/department/:departmentId"

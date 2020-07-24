@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   homeworks: [],
   fetchHomeworksFailedErrorMessage: "",
   isLoading: false,
+  creteHomeworkSuccessMessage: "",
+  creteHomeworFailureMessage: "",
 };
 
 const homeworkReducer = (state = INITIAL_STATE, action) => {
@@ -21,6 +23,21 @@ const homeworkReducer = (state = INITIAL_STATE, action) => {
     case HomeworkActionTypes.FETCH_HOMEWORK_FAILURE:
       return {
         fetchHomeworksFailedErrorMessage: action.payload,
+        isLoading: false,
+      };
+    case HomeworkActionTypes.CREATE_HOMEWORK:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case HomeworkActionTypes.CREATE_HOMEWORK_SUCCESS:
+      return {
+        creteHomeworkSuccessMessage: action.payload,
+        isLoading: false,
+      };
+    case HomeworkActionTypes.CREATE_HOMEWORK_FAILURE:
+      return {
+        creteHomeworFailureMessage: action.payload,
         isLoading: false,
       };
 
