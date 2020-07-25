@@ -7,6 +7,8 @@ import { Progress } from "reactstrap";
 import "./create-home-work.styles.scss";
 import ReactQuill, { Quill, Mixin, Toolbar } from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Footer from "../../../footer/footer.component";
 import SideBar from "../../../side-bar/side-bar.component";
@@ -28,10 +30,14 @@ const api = API.create();
 class CreateHomeWork extends React.Component {
   constructor(props) {
     super(props);
+    this.subjectSelectRef = React.createRef();
+    this.groupSelectRef = React.createRef();
+    this.fileselectRef = React.createRef();
     this.state = {
       subjectsList: [],
       groupsList: [],
       loaded: 0,
+      isLoadingFailed: false,
       selectedFile: [],
       homeworkDetails: {
         description: "",
@@ -171,6 +177,7 @@ class CreateHomeWork extends React.Component {
       // if message not same old that mean has error
       event.target.value = null; // discard selected file
       console.log(err);
+      toast.error(err);
       return false;
     }
     return true;
@@ -188,6 +195,7 @@ class CreateHomeWork extends React.Component {
     if (err !== "") {
       event.target.value = null;
       console.log(err);
+      toast.error("Faile is too large, pick the smaller size file");
       return false;
     }
 
@@ -207,59 +215,133 @@ class CreateHomeWork extends React.Component {
     console.log("fileUploadResponseHandler", response);
     console.log("fileUploadResponseHandler", response.data.fileName);
 
+    if (response.status === 200) {
+      toast.success("File is Uploaded Successfully");
+    } else {
+      toast.error("Failed to uplad the file");
+    }
+
     const item = { ...this.state.homeworkDetails };
     item["fileName"] = response.data.fileName;
     this.setState({ homeworkDetails: item });
     alert("stop fileUploadResponseHandler");
   };
 
-  uploadHandler = () => {
+  uploadHandler = async () => {
     console.log("helllo", this.state.selectedFile);
     console.log("helllo", this.state.selectedFile.name);
     var currentTime = new Date().getTime();
     var newFileName = currentTime + "_" + this.state.selectedFile.name;
     let data = new FormData();
     data.append("file", this.state.selectedFile, newFileName);
-    axios({
-      method: "post",
-      headers: {
-        Authorization:
-          "Bearer " +
-          "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE1OTM2NzgyOTMsImV4cCI6MTYwOTIzMDI5M30.66Gi4n58gWurSPE16UkpiDXGRsbB7PxtPya5zYySRGVC1ND9-GIX-NdXirRTCXpWedUjPmSY__AHFRAGhJZ4Gw",
-      },
-      data: data,
-      url:
-        "https://newchildconnect.cloudjiffy.net/ChildConnectAdminWeb/file/uploadFile",
 
-      onUploadProgress: (ProgressEvent) => {
-        this.setState({
-          loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
-        });
-      },
-    }).then((response) => {
-      console.log("werth", response);
-      console.log("werth", response.statusText);
-      this.fileUploadResponseHandler(response);
-    });
+    var cancelToken = axios.CancelToken.source();
+
+    console.log("cancelToken", cancelToken);
+    console.log("cancelToken", cancelToken.token);
+
+    try {
+      await axios({
+        method: "post",
+        headers: {
+          Authorization:
+            "Bearer " +
+            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE1OTM2NzgyOTMsImV4cCI6MTYwOTIzMDI5M30.66Gi4n58gWurSPE16UkpiDXGRsbB7PxtPya5zYySRGVC1ND9-GIX-NdXirRTCXpWedUjPmSY__AHFRAGhJZ4Gw",
+        },
+        data: data,
+        url:
+          "https://newchildconnect.cloudjiffy.net/ChildConnectAdminWeb/file/uploadFile",
+
+        onUploadProgress: (ProgressEvent) => {
+          this.setState({
+            loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+          });
+        },
+      }).then((response) => {
+        console.log("werth", response);
+        console.log("werth", response.statusText);
+        this.fileUploadResponseHandler(response);
+      });
+    } catch (error) {
+      this.setState({ isLoadingFailed: true, loaded: 0 });
+      toast.error("Failed to uplad the file");
+    }
   };
 
   handelSubmit = (event) => {
     event.preventDefault();
     const { createHomeworkDispatch } = this.props;
-    const { homeworkDetails } = this.state;
+    const { selectedFile, homeworkDetails } = this.state;
+    console.log("selectedFile", selectedFile);
+    console.log("homeworkDetails.headLine", homeworkDetails.headLine);
+    console.log(
+      "homeworkDetails.groupDtoList.size",
+      homeworkDetails.groupDtoList.length
+    );
+    console.log("selectedFile", selectedFile);
+    console.log("homeworkDetails.fileName", homeworkDetails.fileName);
+    if (
+      homeworkDetails.groupDtoList.length &&
+      homeworkDetails.subjectDtoList.length &&
+      homeworkDetails.headLine &&
+      (homeworkDetails.description || homeworkDetails.fileName) &&
+      selectedFile &&
+      homeworkDetails.fileName
+    ) {
+      //createHomeworkDispatch(homeworkDetails);
+      alert("no empty");
+    } else {
+      if (homeworkDetails.groupDtoList.length < 1) {
+        toast.error("At least on class Should be selected");
+      } else if (homeworkDetails.subjectDtoList.length < 1) {
+        toast.error("Subject should not be empty");
+      } else if (
+        homeworkDetails.headLine === null ||
+        homeworkDetails.headLine === ""
+      ) {
+        toast.error("Title should not be empty");
+      } else if (selectedFile && !homeworkDetails.fileName) {
+        toast.error("File is selcted but not uploaded");
+      } else {
+        toast.error("Homework should not be empty");
+      }
+    }
 
-    createHomeworkDispatch(homeworkDetails);
+    console.log("homeworkDetails", homeworkDetails.headLine);
   };
+
+  clearAll() {
+    var newArray = new Array();
+
+    const selectedFile = this.state;
+
+    console.log("selectedFile", this.fileselectRef.current);
+    console.log("selectedFile", this.fileselectRef.current.value);
+    this.fileselectRef.current.value = null;
+    this.setState({ selectedFile: newArray });
+
+    this.subjectSelectRef.current.resetSelectedValues();
+    this.groupSelectRef.current.resetSelectedValues();
+    const item = { ...this.state.homeworkDetails };
+    item["fileName"] = "";
+    item["description"] = "";
+    item["headLine"] = "";
+    this.setState({ homeworkDetails: item });
+  }
 
   render() {
     const navigationItems = {
       listView: "Create Homework",
     };
 
-    const { homeworkDetails } = this.state;
+    const { homeworkDetails, isLoadingFailed } = this.state;
     const { fetchAllSubjects } = this.props;
 
+    console.log("isLoadingFailed", isLoadingFailed);
     console.log("fetchAllSubjects", fetchAllSubjects);
+    if (isLoadingFailed) {
+      alert("isLoadingFailed");
+    }
 
     console.log("homeworkDetails", homeworkDetails);
 
@@ -306,6 +388,7 @@ class CreateHomeWork extends React.Component {
                               onSelect={this.onSubjectSelect.bind(this)}
                               displayValue="name"
                               singleSelect
+                              ref={this.subjectSelectRef}
                             />
                           </div>
                           <div className="col-md-6 col-sm-12"></div>
@@ -320,6 +403,7 @@ class CreateHomeWork extends React.Component {
                               displayValue="name"
                               name="groups"
                               selectedValues={this.state.selectedValue}
+                              ref={this.groupSelectRef}
                             />
                           </div>
                           <div className="col-md-6 col-sm-12"></div>
@@ -333,6 +417,7 @@ class CreateHomeWork extends React.Component {
                               name="headLine"
                               onChange={this.changeHandler}
                               value={homeworkDetails.headLine}
+                              required
                             ></input>
                           </div>
                         </div>
@@ -342,10 +427,15 @@ class CreateHomeWork extends React.Component {
                             <input
                               type="file"
                               className="form-control"
-                              name="file"
+                              name="selectedFile"
                               onChange={this.onFileSelect.bind(this)}
+                              ref={this.fileselectRef}
                             />
                           </div>
+                          <div class="form-group">
+                            <ToastContainer />
+                          </div>
+
                           <div className="form-group">
                             <button
                               type="button"
@@ -355,15 +445,24 @@ class CreateHomeWork extends React.Component {
                               Upload File
                             </button>
                           </div>
-                          <div class="form-group">
-                            <Progress
-                              max="100"
-                              color="success"
-                              value={this.state.loaded}
-                            >
-                              {Math.round(this.state.loaded, 2)}%
-                            </Progress>
-                          </div>
+                          {this.state.loaded ? (
+                            <div class="form-group">
+                              <Progress
+                                max="100"
+                                color="success"
+                                value={this.state.loaded}
+                              >
+                                {Math.round(this.state.loaded, 2)}%
+                              </Progress>
+                            </div>
+                          ) : null}
+                          {this.state.isLoadingFailed ? (
+                            <div class="form-group">
+                              <Progress max="100" color="danger" value="50">
+                                50%
+                              </Progress>
+                            </div>
+                          ) : null}
                         </div>
                         <div className=" col-sm-12">
                           <ReactQuill
@@ -379,12 +478,12 @@ class CreateHomeWork extends React.Component {
                             Post Homework
                           </button>
                           <button
+                            onClick={this.clearAll.bind(this)}
                             type="button"
-                            class="btn btn-outline-secondary"
+                            class="btn btn-primary"
                           >
-                            Draft
+                            Clear
                           </button>
-                          <a class="btn btn-outline-secondary">Cancel</a>
                         </div>
                       </form>
                     </div>
