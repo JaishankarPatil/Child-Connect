@@ -313,7 +313,7 @@ const StaffListView = ({
                                         </Link>
 
                                         <Link
-                                          to={`/staff/updateStaff/${staff.staffId}`}
+                                          to={`/updateStaff/${staff.staffId}`}
                                         >
                                           <button
                                             type="button"

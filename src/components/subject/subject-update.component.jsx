@@ -29,7 +29,7 @@ class SubjectUpdate extends React.Component {
 
   handelSubmit = (event) => {
     event.preventDefault();
-    const { updateSubjectDispatch, history } = this.props;
+    const { updateSubjectDispatch } = this.props;
     const { subjectDetails } = this.state;
     updateSubjectDispatch(subjectDetails);
   };

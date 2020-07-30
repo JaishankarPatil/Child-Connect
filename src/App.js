@@ -28,6 +28,9 @@ import StandardUpdate from "./components/standard/standard-update.component";
 import StudentUpdate from "./components/student/student-update.component";
 import HomeworkContainer from "./components/homework/homework-container.component";
 import Subject from "./components/pages/subject/subject.component";
+import ReplayHomeWork from "./components/pages/home-work/replay-home-work/replay-home-work.component";
+import AdminHomeworkListView from "./components/homework/admin-homework-list-view.component";
+import HomeworkUpdate from "./components/homework/homework-update.component";
 import "./assets/js/core.js";
 import "bootstrap";
 
@@ -71,6 +74,19 @@ class App extends Component {
           />
           <Route exact path="/createhomework" component={CreateHomeWork} />
           <Route exact path="/viewhomework" component={ViewHomeWork} />
+          <Route exact path="/replayhomework" component={ReplayHomeWork} />
+          <Route
+            exact
+            path="/updateHomework/:homeworkId"
+            component={HomeworkUpdate}
+          />
+
+          <Route
+            exact
+            path="/adminhomeworklistview"
+            component={AdminHomeworkListView}
+          />
+
           <Route
             exact
             path="/homework/:subject"

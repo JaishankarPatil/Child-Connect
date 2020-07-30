@@ -2,15 +2,47 @@ import { put, call, all, takeLatest } from "redux-saga/effects";
 import HomeworkActionTypes from "./homework.types";
 import {
   fetchHomeworkSuccess,
+  fetchHomeworkFailure,
   createHomeworkSuccess,
   createHomeworkFailure,
+  updateHomeworkSuccess,
+  updateHomeworkFailure,
+  fetchHomeworkByHomeworkIdSuccess,
+  fetchHomeworkByHomeworkIdFailure,
+  deleteHomeworkByHomeworkIdSuccess,
+  deleteHomeworkByHomeworkIdFailure,
 } from "./homework.actions";
 import HOMEWORK_DATA from "./homework.data";
 import API from "../../services/api";
 const api = API.create();
 
-function* fetchHomeworkStartsAsynch() {
-  yield put(fetchHomeworkSuccess(HOMEWORK_DATA));
+function* fetchHomeworkStartsAsynch(api, action) {
+  try {
+    const response = yield call(api.fetchAllHomeworks);
+    console.log("response out", response);
+    if (response.ok) {
+      yield put(fetchHomeworkSuccess(response.data));
+    } else {
+      const failureMessage = "Failed to fecth all homeworks";
+      yield put(fetchHomeworkFailure(failureMessage));
+    }
+  } catch (error) {
+    yield put(fetchHomeworkFailure(error.message));
+  }
+}
+
+function* fetchHomeworkByHomeworkIdStartAsync(api, action) {
+  try {
+    const response = yield call(api.fetchHomeworkByHomeworkId, action.payload);
+    if (response.ok) {
+      yield put(fetchHomeworkByHomeworkIdSuccess(response.data));
+    } else {
+      const errorMessage = "Failed to fetch Homework By homeworkId";
+      yield put(fetchHomeworkByHomeworkIdFailure(errorMessage));
+    }
+  } catch (error) {
+    yield put(fetchHomeworkByHomeworkIdFailure(error));
+  }
 }
 
 function* createHomeworkAsynch(api, action) {
@@ -28,10 +60,41 @@ function* createHomeworkAsynch(api, action) {
   }
 }
 
+function* updateHomeworkAsynch(api, action) {
+  try {
+    const response = yield call(api.updateHomework, action.payload);
+    if (response.ok) {
+      const successMessage = "Homework is updated successfully";
+      yield put(updateHomeworkSuccess(successMessage));
+    } else {
+      const errorMessage = "Failed to update Homework";
+      yield put(updateHomeworkFailure(errorMessage));
+    }
+  } catch (error) {
+    yield put(updateHomeworkFailure(error));
+  }
+}
+
+function* deleteHomeworkAsynch(api, action) {
+  try {
+    const response = yield call(api.deleteHomework, action.payload);
+    if (response.ok) {
+      const successMessage = "Homework is deleted successfully";
+      yield put(deleteHomeworkByHomeworkIdSuccess(successMessage));
+    } else {
+      const failureMessage = "Failed to delete the Homework";
+      yield put(deleteHomeworkByHomeworkIdFailure(failureMessage));
+    }
+  } catch (error) {
+    yield put(deleteHomeworkByHomeworkIdFailure(error));
+  }
+}
+
 export function* fetchHomeworkStarts() {
   yield takeLatest(
     HomeworkActionTypes.FETCH_HOMEWORK_START,
-    fetchHomeworkStartsAsynch
+    fetchHomeworkStartsAsynch,
+    api
   );
 }
 
@@ -43,6 +106,36 @@ export function* createHomework() {
   );
 }
 
+export function* updateHomework() {
+  yield takeLatest(
+    HomeworkActionTypes.UPDATE_HOMEWORK,
+    updateHomeworkAsynch,
+    api
+  );
+}
+
+export function* deleteHomework() {
+  yield takeLatest(
+    HomeworkActionTypes.DELETE_HOMEWORK,
+    deleteHomeworkAsynch,
+    api
+  );
+}
+
+export function* fetchHomeworkByHomeworkIdStart() {
+  yield takeLatest(
+    HomeworkActionTypes.FETCH_HOMEWORK_BYHOMEWORKID_START,
+    fetchHomeworkByHomeworkIdStartAsync,
+    api
+  );
+}
+
 export default function* homeworkSagas() {
-  yield all([call(fetchHomeworkStarts), call(createHomework)]);
+  yield all([
+    call(fetchHomeworkStarts),
+    call(createHomework),
+    call(fetchHomeworkByHomeworkIdStart),
+    call(updateHomework),
+    call(deleteHomework),
+  ]);
 }

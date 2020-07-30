@@ -55,7 +55,7 @@ export const fetchGroupByGroupIdUpdateSuccess = (group) => ({
 });
 
 export const fetchGroupByGroupIdUpdateFailure = (errorMessage) => ({
-  type: GroupActionTypes.FETCH_GROUP_BYGROUPID_SUCCESS,
+  type: GroupActionTypes.FETCH_GROUP_BYGROUPID_FAILURE,
   payload: errorMessage,
 });
 

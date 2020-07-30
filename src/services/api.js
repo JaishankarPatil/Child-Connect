@@ -129,7 +129,7 @@ const create = (
   const updateSubject = (subjectToUpdate) => {
     console.log("subjectToUpdate API", subjectToUpdate);
     alert("final api check");
-    api.put(proxyurl + baseURL + "subject/v1/updateSubject", subjectToUpdate);
+    api.put(proxyurl + baseURL + "/subject/v1/updateSubject", subjectToUpdate);
   };
   const fetchSubjectBySubjectId = (subjectId) =>
     api.get(baseURL + `/subject/v1/querySubjectBySubjectId/${subjectId}`);
@@ -138,15 +138,31 @@ const create = (
       proxyurl + baseURL + `/subject/v1/deleteSubjectById/${subjectId}`
     );
 
+  //Homework
+
+  const fetchAllHomeworks = () =>
+    api.get(baseURL + "/homework/v1/queryAllHomeWorks");
+  const createHomework = (newHomework) =>
+    api.post(baseURL + "/homework/v1/createHomeWork", newHomework);
+
+  const updateHomework = (homeworkToUpdate) =>
+    api.put(
+      proxyurl + baseURL + "/homework/v1/updateHomeWork",
+      homeworkToUpdate
+    );
+
+  const fetchHomeworkByHomeworkId = (homeworkId) =>
+    api.get(baseURL + `/homework/v1/queryHomeWorkByHomeWorkId/${homeworkId}`);
+
+  const deleteHomework = (homeworkId) => {
+    console.log("homeworkId", homeworkId);
+    api.delete(baseURL + `/homework/v1/deleteHomeWorkById/${homeworkId}`);
+  };
+
   //File upload
 
   const uploadFileTest = (formData) =>
     api.post(proxyurl + baseURL + `/file/uploadFile`, formData);
-
-  //Homework
-
-  const createHomework = (newHomework) =>
-    api.post(baseURL + "/homework/v1/createHomeWork", newHomework);
 
   return {
     // a list of the API functions from step 2
@@ -204,7 +220,11 @@ const create = (
 
     //Homework
 
+    fetchAllHomeworks,
     createHomework,
+    fetchHomeworkByHomeworkId,
+    updateHomework,
+    deleteHomework,
   };
 };
 

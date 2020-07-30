@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { createStructuredSelector } from "reselect";
 import API from "../../../../services/api";
 import axios from "axios";
@@ -22,7 +23,6 @@ import { selectSubjects } from "../../../../redux/subject/subject.selectors";
 import { fetchGroupsStart } from "../../../../redux/group/group.actions";
 import { selectGroups } from "../../../../redux/group/group.selectors";
 
-import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import { Multiselect } from "multiselect-react-dropdown";
 
 const api = API.create();
@@ -45,6 +45,9 @@ class CreateHomeWork extends React.Component {
         groupDtoList: [],
         headLine: "",
         subjectDtoList: [],
+        homeworkBy: {
+          userId: 2,
+        },
       },
     };
     this.style = {
@@ -68,7 +71,6 @@ class CreateHomeWork extends React.Component {
     fetchGroupStartsDispatch();
   }
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
     this.initialize(nextProps);
   }
 
@@ -78,8 +80,6 @@ class CreateHomeWork extends React.Component {
 
     var subjectsArray = new Array();
     var groupsArray = new Array();
-    console.log("fetchAllSubjects", fetchAllSubjects);
-    console.log("fetchAllGroups", fetchAllGroups);
 
     fetchAllSubjects.map((subject) => {
       subjectsArray.push({
@@ -97,7 +97,6 @@ class CreateHomeWork extends React.Component {
 
     const test = this.state.subjectsList;
 
-    console.log("this.state", this.state);
     this.setState({ subjectsList: subjectsArray });
     this.setState({ groupsList: groupsArray });
   }
@@ -119,7 +118,6 @@ class CreateHomeWork extends React.Component {
 
     item["subjectDtoList"] = subjectDto;
 
-    console.log("subjectDto", subjectDto);
     this.setState({ homeworkDetails: item });
   }
 
@@ -132,17 +130,37 @@ class CreateHomeWork extends React.Component {
 
     item["groupDtoList"] = groupDto;
 
-    console.log("groupDto", groupDto);
-    console.log("groupList", groupList);
-    console.log("selectedItem", selectedItem);
+    this.setState({ homeworkDetails: item });
+  }
+
+  onGroupRemove(groupList, selectedItem) {
+    const item = { ...this.state.homeworkDetails };
+    let groupDto = new Array();
+    groupList.map((group) => {
+      groupDto.push({ groupId: `${group.id}` });
+    });
+
+    item["groupDtoList"] = groupDto;
+
     this.setState({ homeworkDetails: item });
   }
 
   quillChangeHandler(value) {
-    // this.setState({ text: value });
+    //this.setState({ text: value });
+    console.log("test", value.length);
+    console.log("test", value.replace(/<(.|\n)*?>/g, ""));
+    var finalValue = value.replace(/<(.|\n)*?>/g, "");
+    if (
+      value.length === 11 &&
+      value.replace(/<(.|\n)*?>/g, "").trim().length === 0
+    ) {
+      finalValue = null;
+    } else {
+      finalValue = value;
+    }
+    console.log("finalValue", finalValue);
     const item = { ...this.state.homeworkDetails };
-    item["description"] = value;
-    console.log("text", value);
+    item["description"] = finalValue;
     this.setState({ homeworkDetails: item });
   }
 
@@ -204,17 +222,12 @@ class CreateHomeWork extends React.Component {
 
   onFileSelect = (event) => {
     const fileToUpload = event.target.files[0];
-    console.log("fileToUpload", fileToUpload);
-    console.log("fileToUpload", fileToUpload.name);
     if (this.checkMimeType(event) && this.checkFileSize(event)) {
       this.setState({ selectedFile: event.target.files[0], loaded: 0 });
     }
   };
 
   fileUploadResponseHandler = (response) => {
-    console.log("fileUploadResponseHandler", response);
-    console.log("fileUploadResponseHandler", response.data.fileName);
-
     if (response.status === 200) {
       toast.success("File is Uploaded Successfully");
     } else {
@@ -224,21 +237,15 @@ class CreateHomeWork extends React.Component {
     const item = { ...this.state.homeworkDetails };
     item["fileName"] = response.data.fileName;
     this.setState({ homeworkDetails: item });
-    alert("stop fileUploadResponseHandler");
   };
 
   uploadHandler = async () => {
-    console.log("helllo", this.state.selectedFile);
-    console.log("helllo", this.state.selectedFile.name);
     var currentTime = new Date().getTime();
     var newFileName = currentTime + "_" + this.state.selectedFile.name;
     let data = new FormData();
     data.append("file", this.state.selectedFile, newFileName);
 
     var cancelToken = axios.CancelToken.source();
-
-    console.log("cancelToken", cancelToken);
-    console.log("cancelToken", cancelToken.token);
 
     try {
       await axios({
@@ -258,8 +265,6 @@ class CreateHomeWork extends React.Component {
           });
         },
       }).then((response) => {
-        console.log("werth", response);
-        console.log("werth", response.statusText);
         this.fileUploadResponseHandler(response);
       });
     } catch (error) {
@@ -272,24 +277,19 @@ class CreateHomeWork extends React.Component {
     event.preventDefault();
     const { createHomeworkDispatch } = this.props;
     const { selectedFile, homeworkDetails } = this.state;
-    console.log("selectedFile", selectedFile);
-    console.log("homeworkDetails.headLine", homeworkDetails.headLine);
-    console.log(
-      "homeworkDetails.groupDtoList.size",
-      homeworkDetails.groupDtoList.length
-    );
-    console.log("selectedFile", selectedFile);
-    console.log("homeworkDetails.fileName", homeworkDetails.fileName);
     if (
-      homeworkDetails.groupDtoList.length &&
-      homeworkDetails.subjectDtoList.length &&
-      homeworkDetails.headLine &&
-      (homeworkDetails.description || homeworkDetails.fileName) &&
-      selectedFile &&
-      homeworkDetails.fileName
+      !!homeworkDetails.groupDtoList.length &&
+      !!homeworkDetails.subjectDtoList.length &&
+      !!homeworkDetails.headLine &&
+      (!!homeworkDetails.description || !!homeworkDetails.fileName)
     ) {
-      //createHomeworkDispatch(homeworkDetails);
-      alert("no empty");
+      if (!!!homeworkDetails.fileName && !!selectedFile.name) {
+        toast.error("File is attached but not uploaded");
+      } else {
+        console.log("homeworkDetails", homeworkDetails);
+        createHomeworkDispatch(homeworkDetails);
+        alert("success");
+      }
     } else {
       if (homeworkDetails.groupDtoList.length < 1) {
         toast.error("At least on class Should be selected");
@@ -300,33 +300,21 @@ class CreateHomeWork extends React.Component {
         homeworkDetails.headLine === ""
       ) {
         toast.error("Title should not be empty");
-      } else if (selectedFile && !homeworkDetails.fileName) {
-        toast.error("File is selcted but not uploaded");
       } else {
         toast.error("Homework should not be empty");
       }
     }
-
-    console.log("homeworkDetails", homeworkDetails.headLine);
   };
 
   clearAll() {
-    var newArray = new Array();
-
-    const selectedFile = this.state;
-
-    console.log("selectedFile", this.fileselectRef.current);
-    console.log("selectedFile", this.fileselectRef.current.value);
     this.fileselectRef.current.value = null;
-    this.setState({ selectedFile: newArray });
-
     this.subjectSelectRef.current.resetSelectedValues();
     this.groupSelectRef.current.resetSelectedValues();
     const item = { ...this.state.homeworkDetails };
     item["fileName"] = "";
     item["description"] = "";
     item["headLine"] = "";
-    this.setState({ homeworkDetails: item });
+    this.setState({ homeworkDetails: item, loaded: 0 });
   }
 
   render() {
@@ -337,13 +325,9 @@ class CreateHomeWork extends React.Component {
     const { homeworkDetails, isLoadingFailed } = this.state;
     const { fetchAllSubjects } = this.props;
 
-    console.log("isLoadingFailed", isLoadingFailed);
-    console.log("fetchAllSubjects", fetchAllSubjects);
     if (isLoadingFailed) {
       alert("isLoadingFailed");
     }
-
-    console.log("homeworkDetails", homeworkDetails);
 
     return (
       <div className="font-muli theme-cyan gradient">
@@ -351,10 +335,39 @@ class CreateHomeWork extends React.Component {
           <SideBar />
 
           <div className="page">
-            <Navigation
-              pageTitle={"CREATE HOMEWORK"}
-              navigationItems={navigationItems}
-            />
+            <div className="section-body">
+              <div className="container-fluid">
+                <div className="d-flex justify-content-between align-items-center ">
+                  <div className="header-action">
+                    <h1 className="page-title">Homework List View</h1>
+                    <ol className="breadcrumb page-breadcrumb">
+                      <li className="breadcrumb-item">
+                        <a href="#">Child-Connect</a>
+                      </li>
+                      <li
+                        className="breadcrumb-item active"
+                        aria-current="page"
+                      >
+                        Homework List View
+                      </li>
+                    </ol>
+                  </div>
+                  <ul className="nav nav-tabs page-header-tab">
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/adminhomeworklistview">
+                        List View
+                      </Link>
+                    </li>
+
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/createhomework">
+                        Create Homework
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             <div className="section-body mt-4">
               <div className="container-fluid">
                 <div className="tab-content">
@@ -400,6 +413,7 @@ class CreateHomeWork extends React.Component {
                             <Multiselect
                               options={this.state.groupsList}
                               onSelect={this.onGroupSelect.bind(this)}
+                              onRemove={this.onGroupRemove.bind(this)}
                               displayValue="name"
                               name="groups"
                               selectedValues={this.state.selectedValue}
@@ -417,7 +431,6 @@ class CreateHomeWork extends React.Component {
                               name="headLine"
                               onChange={this.changeHandler}
                               value={homeworkDetails.headLine}
-                              required
                             ></input>
                           </div>
                         </div>
@@ -432,21 +445,21 @@ class CreateHomeWork extends React.Component {
                               ref={this.fileselectRef}
                             />
                           </div>
-                          <div class="form-group">
+                          <div className="form-group">
                             <ToastContainer />
                           </div>
 
                           <div className="form-group">
                             <button
                               type="button"
-                              class="btn btn-primary"
+                              className="btn btn-primary"
                               onClick={this.uploadHandler.bind(this)}
                             >
                               Upload File
                             </button>
                           </div>
                           {this.state.loaded ? (
-                            <div class="form-group">
+                            <div className="form-group">
                               <Progress
                                 max="100"
                                 color="success"
@@ -457,7 +470,7 @@ class CreateHomeWork extends React.Component {
                             </div>
                           ) : null}
                           {this.state.isLoadingFailed ? (
-                            <div class="form-group">
+                            <div className="form-group">
                               <Progress max="100" color="danger" value="50">
                                 50%
                               </Progress>
@@ -473,14 +486,14 @@ class CreateHomeWork extends React.Component {
                           />
                         </div>
 
-                        <div class="mt-4 text-right">
-                          <button type="submit" class="btn btn-success">
+                        <div className="mt-4 text-right">
+                          <button type="submit" className="btn btn-success">
                             Post Homework
                           </button>
                           <button
                             onClick={this.clearAll.bind(this)}
                             type="button"
-                            class="btn btn-primary"
+                            className="btn btn-primary"
                           >
                             Clear
                           </button>
