@@ -80,3 +80,22 @@ export const selectdeleteHomeworkErrorMessage = createSelector(
 
   (homework) => homework.deleteHomeworkErrorMessage
 );
+
+export const selectGroups = createSelector(
+  [selectHomework],
+
+  (homework) => homework.groups
+);
+
+export const selectHomeworksByGroupId = createSelector(
+  [selectHomework],
+
+  (homework) => homework.homeworksByGroupId
+);
+
+export const selectHomeworkByHomeworkId = (homeworkId) =>
+  createSelector(
+    [selectHomeworksByGroupId],
+
+    (homeworks) => (homeworks ? homeworks[homeworkId] : null)
+  );

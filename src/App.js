@@ -27,6 +27,7 @@ import ViewHomeWork from "./components/pages/home-work/view-home-work/view-home-
 import StandardUpdate from "./components/standard/standard-update.component";
 import StudentUpdate from "./components/student/student-update.component";
 import HomeworkContainer from "./components/homework/homework-container.component";
+import HomeworkByGroupContainer from "./components/homework-by-group/homework-by-group.component";
 import Subject from "./components/pages/subject/subject.component";
 import ReplayHomeWork from "./components/pages/home-work/replay-home-work/replay-home-work.component";
 import AdminHomeworkListView from "./components/homework/admin-homework-list-view.component";
@@ -46,7 +47,6 @@ class App extends Component {
           <Route exact path="/createStaff" component={CreateStaff} />
           <Route exact path="/updateStaff/:staffId" component={StaffUpdate} />
           <Route exact path="/department" component={Department} />
-
           <Route exact path="/student" component={Student} />
           <Route exact path="/student/:studentId" component={StudentUpdate} />
           <Route
@@ -80,17 +80,22 @@ class App extends Component {
             path="/updateHomework/:homeworkId"
             component={HomeworkUpdate}
           />
-
           <Route
             exact
             path="/adminhomeworklistview"
             component={AdminHomeworkListView}
           />
-
+          {/* 
           <Route
             exact
             path="/homework/:subject"
             component={HomeworkContainer}
+          />
+         */}
+          <Route
+            exact
+            path="/viewhomework/:groupName/:groupId"
+            component={HomeworkByGroupContainer}
           />
         </Switch>
       </div>

@@ -11,8 +11,15 @@ import {
 import Footer from "../../../footer/footer.component";
 import SideBar from "../../../side-bar/side-bar.component";
 import Navigation from "../../../navigation/navigation.component";
-import { fetchHomeworkStarts } from "../../../../redux/homework/homework.actions";
+import {
+  fetchHomeworkStarts,
+  fetchGroupsByStudentIdStart,
+} from "../../../../redux/homework/homework.actions";
+
+import { selectGroups } from "../../../../redux/homework/homework.selectors";
+import HomeworkMenu from "../../../homework/homework-by-group-menu-component";
 import HomeworkContainer from "../../../homework/homework-container.component";
+import HomeworkByGroupContainer from "../../../homework-by-group/homework-by-group.component";
 
 class ViewHomeWork extends Component {
   constructor(props) {
@@ -20,8 +27,8 @@ class ViewHomeWork extends Component {
   }
 
   componentDidMount() {
-    const { fetchHomeworkStartsDispatch } = this.props;
-    fetchHomeworkStartsDispatch();
+    const { fetchGroupsByStudentIdStartDispatch } = this.props;
+    fetchGroupsByStudentIdStartDispatch(1);
   }
 
   render() {
@@ -31,9 +38,11 @@ class ViewHomeWork extends Component {
       add: "Add",
     };
 
-    const { homeworkBySubject, history } = this.props;
+    const { homeworkBySubject, history, groupsList } = this.props;
 
     console.log("homeworkBySubject", homeworkBySubject);
+    console.log("groupsList", groupsList);
+    console.log("groupsList", groupsList.groupDtoList);
 
     return (
       <div className="font-muli theme-cyan gradient">
@@ -70,31 +79,12 @@ class ViewHomeWork extends Component {
                     <div className="card-body">
                       <div className="card text-center">
                         <div className="card-header">
-                          <ul className="nav nav-tabs card-header-tabs">
-                            <li className="nav-item">
-                              <a className="nav-link" href="#">
-                                <Link to="/staff/maths">Maths</Link>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a className="nav-link" href="#">
-                                <Link to="/homework/science">Science</Link>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a className="nav-link " href="#">
-                                <Link to="/homework/social">Social</Link>
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a className="nav-link " href="#">
-                                <Link to="/homework/english">English</Link>
-                              </a>
-                            </li>
-                          </ul>
+                          <HomeworkMenu groupsList={groupsList} />
                         </div>
                         <div className="card-body">
-                          <h5 className="card-title">No Home work found</h5>
+                          <h5 className="card-title">
+                            To View Homework Select Group
+                          </h5>
                         </div>
                       </div>
                     </div>
@@ -111,8 +101,12 @@ class ViewHomeWork extends Component {
   }
 }
 
+const mapStateToProps = createStructuredSelector({
+  groupsList: selectGroups,
+});
 const mapDispatchToProps = (dispatch) => ({
-  fetchHomeworkStartsDispatch: () => dispatch(fetchHomeworkStarts()),
+  fetchGroupsByStudentIdStartDispatch: (studentId) =>
+    dispatch(fetchGroupsByStudentIdStart(studentId)),
 });
 
-export default connect(null, mapDispatchToProps)(ViewHomeWork);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewHomeWork);

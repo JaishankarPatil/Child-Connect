@@ -73,3 +73,33 @@ export const deleteHomeworkByHomeworkIdFailure = (errorMessage) => ({
   type: HomeworkActionTypes.DELETE_HOMEWORK_FAILURE,
   payload: errorMessage,
 });
+
+export const fetchGroupsByStudentIdStart = (studentId) => ({
+  type: HomeworkActionTypes.FETCH_GROUPS_BYSTUDENTID_START,
+  payload: studentId,
+});
+
+export const fetchGroupsByStudentIdSuccess = (groups) => ({
+  type: HomeworkActionTypes.FETCH_GROUPS_BYSTUDENTID_SUCCESS,
+  payload: groups,
+});
+
+export const fetchGroupsByStudentIdFailure = (errorMessage) => ({
+  type: HomeworkActionTypes.FETCH_GROUPS_BYSTUDENTID_FAILURE,
+  payload: errorMessage,
+});
+
+export const fetchHomeworksByGroupIdStart = (groupId) => ({
+  type: HomeworkActionTypes.FETCH_HOMEWORKS_BYGROUPID_START,
+  payload: groupId,
+});
+
+export const fetchHomeworksByGroupIdSuccess = (homeworks) => ({
+  type: HomeworkActionTypes.FETCH_HOMEWORKS_BYGROUPID_SUCCESS,
+  payload: homeworks,
+});
+
+export const fetchHomeworksByGroupIdFailure = (errorMessage) => ({
+  type: HomeworkActionTypes.FETCH_HOMEWORKS_BYGROUPID_FAILURE,
+  payload: errorMessage,
+});

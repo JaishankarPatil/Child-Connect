@@ -8,6 +8,7 @@ import designationSagas from "../redux/designation/designation.sagas";
 import standardSagas from "../redux/standard/standard.sagas";
 import subjectSagas from "../redux/subject/subject.sagas";
 import homeworkSagas from "../redux/homework/homework.sagas";
+import replayHomeworkSagas from "../redux/replay-homework/replay-homework.sagas";
 
 export default function* rootSaga() {
   yield all([
@@ -19,5 +20,6 @@ export default function* rootSaga() {
     call(standardSagas),
     call(subjectSagas),
     call(homeworkSagas),
+    call(replayHomeworkSagas),
   ]);
 }

@@ -11,6 +11,10 @@ import {
   fetchHomeworkByHomeworkIdFailure,
   deleteHomeworkByHomeworkIdSuccess,
   deleteHomeworkByHomeworkIdFailure,
+  fetchGroupsByStudentIdSuccess,
+  fetchGroupsByStudentIdFailure,
+  fetchHomeworksByGroupIdSuccess,
+  fetchHomeworksByGroupIdFailure,
 } from "./homework.actions";
 import HOMEWORK_DATA from "./homework.data";
 import API from "../../services/api";
@@ -21,7 +25,7 @@ function* fetchHomeworkStartsAsynch(api, action) {
     const response = yield call(api.fetchAllHomeworks);
     console.log("response out", response);
     if (response.ok) {
-      yield put(fetchHomeworkSuccess(response.data));
+      yield put(fetchHomeworkSuccess(HOMEWORK_DATA));
     } else {
       const failureMessage = "Failed to fecth all homeworks";
       yield put(fetchHomeworkFailure(failureMessage));
@@ -42,6 +46,34 @@ function* fetchHomeworkByHomeworkIdStartAsync(api, action) {
     }
   } catch (error) {
     yield put(fetchHomeworkByHomeworkIdFailure(error));
+  }
+}
+
+function* fectchGroupsByStudentIdAsync(api, action) {
+  try {
+    const response = yield call(api.fetchGroupsByStudentId, action.payload);
+    if (response.ok) {
+      yield put(fetchGroupsByStudentIdSuccess(response.data));
+    } else {
+      const errorMessage = "Failed to fetch groups by student Id";
+      yield put(fetchGroupsByStudentIdFailure(errorMessage));
+    }
+  } catch (error) {
+    yield put(fetchGroupsByStudentIdFailure(error));
+  }
+}
+
+function* fetchHomeworksByGroupIdStartAsync(api, action) {
+  try {
+    const response = yield call(api.fetchHomeworkByGroupId, action.payload);
+    if (response.ok) {
+      yield put(fetchHomeworksByGroupIdSuccess(response.data));
+    } else {
+      const errorMessage = "Failed to fetch homeworks by groupId";
+      yield put(fetchHomeworksByGroupIdFailure(errorMessage));
+    }
+  } catch (error) {
+    yield put(fetchHomeworksByGroupIdFailure(error));
   }
 }
 
@@ -130,11 +162,29 @@ export function* fetchHomeworkByHomeworkIdStart() {
   );
 }
 
+export function* fectchGroupsByStudentIdStart() {
+  yield takeLatest(
+    HomeworkActionTypes.FETCH_GROUPS_BYSTUDENTID_START,
+    fectchGroupsByStudentIdAsync,
+    api
+  );
+}
+
+export function* fetchHomeworksByGroupIdStart() {
+  yield takeLatest(
+    HomeworkActionTypes.FETCH_HOMEWORKS_BYGROUPID_START,
+    fetchHomeworksByGroupIdStartAsync,
+    api
+  );
+}
+
 export default function* homeworkSagas() {
   yield all([
     call(fetchHomeworkStarts),
     call(createHomework),
     call(fetchHomeworkByHomeworkIdStart),
+    call(fetchHomeworksByGroupIdStart),
+    call(fectchGroupsByStudentIdStart),
     call(updateHomework),
     call(deleteHomework),
   ]);

@@ -44,6 +44,12 @@ const create = (
     api.put(proxyurl + baseURL + "/student/v1/updateStudent", StudentToUpdate);
   const fetchStudentByStudentId = (studentId) =>
     api.get(baseURL + `/student/v1/queryStudentByStudentId/${studentId}`);
+  const fetchGroupsByStudentId = (studentId) =>
+    api.get(baseURL + `/student/v1/getGroupsByStudentId/${studentId}`);
+
+  const fetchHomeworkByGroupId = (groupId) =>
+    api.get(baseURL + `/student/v1/getHomeWorkByGroupId/${groupId}`);
+
   const deleteStudent = (studentId) =>
     api.delete(
       proxyurl + baseURL + `/student/v1/deleteStudentById/${studentId}`
@@ -126,17 +132,28 @@ const create = (
     api.get(baseURL + "/subject/v1/queryAllSubjects");
   const createSubject = (newSubject) =>
     api.post(baseURL + "/subject/v1/createSubject", newSubject);
-  const updateSubject = (subjectToUpdate) => {
-    console.log("subjectToUpdate API", subjectToUpdate);
-    alert("final api check");
+  const updateSubject = (subjectToUpdate) =>
     api.put(proxyurl + baseURL + "/subject/v1/updateSubject", subjectToUpdate);
-  };
   const fetchSubjectBySubjectId = (subjectId) =>
     api.get(baseURL + `/subject/v1/querySubjectBySubjectId/${subjectId}`);
   const deleteSubject = (subjectId) =>
     api.delete(
       proxyurl + baseURL + `/subject/v1/deleteSubjectById/${subjectId}`
     );
+
+  //Student Post
+  const createReplayHomework = (newReplayHomework) =>
+    api.post(baseURL + "/post/v1/addPost", newReplayHomework);
+  const fetchReplayHomeworksByUserId = (userId) =>
+    api.get(baseURL + `/post/v1/getPostByUserId/${userId}`);
+  const fetchReplayHomeworkByReplayHomeworkId = (replayHomeworkId) =>
+    api.get(baseURL + `/post/v1/getPostsByPostId/${replayHomeworkId}`);
+
+  const updateReplayHomework = (replayHomeworkToUpdate) =>
+    api.put(proxyurl + baseURL + "/post/v1/updatePost", replayHomeworkToUpdate);
+
+  const deleteReplayHomework = (replayHomeworkId) =>
+    api.delete(proxyurl + baseURL + `/post/v1/deletePost/${replayHomeworkId}`);
 
   //Homework
 
@@ -177,6 +194,8 @@ const create = (
     createStudent,
     updateStudent,
     fetchStudentByStudentId,
+    fetchGroupsByStudentId,
+    fetchHomeworkByGroupId,
     deleteStudent,
 
     //Group
@@ -206,6 +225,13 @@ const create = (
     updateStandard,
     fetchStandardByStandardId,
     deleteStandard,
+
+    //ReplayHomework
+    createReplayHomework,
+    fetchReplayHomeworksByUserId,
+    fetchReplayHomeworkByReplayHomeworkId,
+    updateReplayHomework,
+    deleteReplayHomework,
 
     //Subjects
     fetchAllSubjects,
